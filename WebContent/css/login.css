@@ -1,0 +1,12 @@
+/*!
+ * This is the css file for login.jsp
+ */
+
+.loginContainer {
+	margin-top: 10%;
+	margin-bottom: 10%;
+}
+
+.card {
+	width: 60%;
+}
