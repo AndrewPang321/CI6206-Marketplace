@@ -29,87 +29,87 @@
 </head>
 <body>
 	<script>
-	    $(document).ready(function() {
-	    	
-	    	// LoginForm submission
-	    	$("#loginForm").submit(function(event) {
-	    		var form = $(this);
-	    		
-	    		$.ajax({
-	    			url: "login",
-	    			type: "POST",
-	    			data: form.serialize(),
-	    			beforeSend: function() {
-	    				$(".loader").css("display", "block");
-	    			},
-	    			success: function() {
-	    				console.log("success");
-	    			},
-	    			error: function() {
-	    				console.log("failure");
-	    			},
-	    			complete: function(res) {
-	    				console.log(res.status);
-	    				switch (res.status) {
-	    					case 200:
-	    						showAlert({message: 'Login success. Redirect in 1 second', class: 'success'});
-	    						setTimeout(function() { window.location.replace("index.html") }, 1500);
-	    						break;
-	    					case 400:
-	    						showAlert({message: 'Incorrect Email/Password', class: 'danger'});
-	    						break;
-	    					default:
-	    						showAlert({message: 'Some problems occur. Please try again', class: 'danger'});
-	    				}
-	    				$(".loader").css("display", "none");
-	    			}
-	    		});
-	    		return false;
-	    	});
-	    	
-	    	// SignupForm submission
-	    	$("#signupForm").submit(function(event) {
-	    		var form = $(this);
-	    		var email = $("#signupEmail").val();
-				var password = $("#signupPassword").val();
-				var confirmPassword = $("#signupConfirmPassword").val();
-				if(!signupFormValidation(email, password, confirmPassword)) {
-					showAlert({message: 'Passwords are not the same', class: 'danger'});
-				} else {
-		    		$.ajax({
-		    			url: "signup",
-		    			type: "POST",
-		    			data: form.serialize(),
-		    			beforeSend: function() {
-		    				$(".loader").css("display", "block");	
-		    			},
-		    			success: function() {
-		    				console.log("success");
-		    			},
-		    			error: function() {
-		    				console.log("failure");
-		    			},
-		    			complete: function(res) {
-		    				console.log(res.status);
-		    				switch (res.status) {
-		    					case 201:
-		    						showAlert({message: 'Sign up success. Redirect in 1 second', class: 'success'});
-		    						setTimeout(function() { window.location.replace("index.html") }, 1500);
-		    						break;
-		    					case 400:
-		    						showAlert({message: 'Email already existed. Please try another one', class: 'danger'});
-		    						break;
-		    					default:
-		    						showAlert({message: 'Some problems occur. Please try again', class: 'danger'});
-		    				}
-		    				$(".loader").css("display", "none");
-		    			}
-		    		});
-				}
-	    		return false;
-	    	});
-	    	
-	    });
+    $(document).ready(function() {
+    	
+      // LoginForm submission
+      $("#loginForm").submit(function(event) {
+    	var form = $(this);
+    		
+    	$.ajax({
+    	  url: "login",
+    	  type: "POST",
+          data: form.serialize(),
+    	  beforeSend: function() {
+    	    $(".loader").css("display", "block");
+    	  },
+    	  success: function() {
+    		console.log("success");
+    	  },
+    	  error: function() {
+    	    console.log("failure");
+    	  },
+    	  complete: function(res) {
+    	    console.log(res.status);
+    	    switch (res.status) {
+    		  case 200:
+    			showAlert({message: 'Login success. Redirect in 1 second', class: 'success'});
+    			setTimeout(function() { window.location.replace("index.html") }, 1500);
+    			break;
+    		  case 400:
+    			showAlert({message: 'Incorrect Email/Password', class: 'danger'});
+    			break;
+    		  default:
+    			showAlert({message: 'Some problems occur. Please try again', class: 'danger'});
+    		}
+    		$(".loader").css("display", "none");
+    	  }
+        });
+    	return false;
+      });
+    	
+      // SignupForm submission
+      $("#signupForm").submit(function(event) {
+        var form = $(this);
+    	var email = $("#signupEmail").val();
+		var password = $("#signupPassword").val();
+		var confirmPassword = $("#signupConfirmPassword").val();
+		if(!signupFormValidation(email, password, confirmPassword)) {
+	      showAlert({message: 'Passwords are not the same', class: 'danger'});
+		} else {
+	      $.ajax({
+	    	url: "signup",
+	    	type: "POST",
+	    	data: form.serialize(),
+	    	beforeSend: function() {
+	    	  $(".loader").css("display", "block");	
+	        },
+	        success: function() {
+	    	  console.log("success");
+	        },
+	    	error: function() {
+	    	  console.log("failure");
+	    	},
+	    	complete: function(res) {
+	    	  console.log(res.status);
+	    	  switch (res.status) {
+	    		case 201:
+	    		  showAlert({message: 'Sign up success. Redirect in 1 second', class: 'success'});
+	    		  setTimeout(function() { window.location.replace("index.html") }, 1500);
+	    		  break;
+	    		case 400:
+	    		  showAlert({message: 'Email already existed. Please try another one', class: 'danger'});
+	    		  break;
+	    		default:
+	    		  showAlert({message: 'Some problems occur. Please try again', class: 'danger'});
+	    	    }
+	    		$(".loader").css("display", "none");
+	    	}
+	      });
+		}
+    	return false;
+      });
+    	
+    });
 	</script>
 
 	<!-- Navigation -->
