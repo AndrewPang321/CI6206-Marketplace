@@ -34,13 +34,20 @@ public class SignUpServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	  String email = request.getParameter("inputEmail");
-    String password = request.getParameter("inputPassword");
-    String confirmPassword = request.getParameter("inputConfirmPassword");
+	  String email = request.getParameter("signupEmail");
+    String password = request.getParameter("signupPassword");
+    String confirmPassword = request.getParameter("signupConfirmPassword");
     
-    if ((email != "" && password != "") && (password == confirmPassword)) {
+    if ((email != "" && password != "") && (password.equals(confirmPassword))) {
       // TODO: Perform registration with DB
-      
+      Boolean success = true;
+      if (success) {
+        // Sign up success, 201: Created
+        response.setStatus(201);
+      } else {
+        // Sign up fail, 400: Bad Request
+        response.setStatus(400);
+      }
     }
 	}
 

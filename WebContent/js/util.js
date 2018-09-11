@@ -13,6 +13,7 @@ function showAlert(alertObj) {
     html += `</div>`;
     
     $("#alertBox").append(html);
+    // The alert lasts for 2s
     $("#alert").fadeTo(2000, 500).slideUp(500, () => {
     	$("#success-alert").slideUp(500);
     	$("#alert").alert("close");

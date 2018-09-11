@@ -34,12 +34,19 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	  String email = request.getParameter("inputEmail");
-    String password = request.getParameter("inputPassword");
+	  String email = request.getParameter("loginEmail");
+    String password = request.getParameter("loginPassword");
     
     if (email != "" && password != "") {
-      // TODO: Perform authentication with DB
-      
+      // TODO: Successful authentication with DB
+      Boolean success = true;
+      if (success) {
+        // Authentication success, 200: Success
+        response.setStatus(200);
+      } else {
+        // Authentication fail, 400: Bad Request
+        response.setStatus(400);
+      }
     }
 	}
 
