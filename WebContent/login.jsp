@@ -188,7 +188,7 @@
       <div class="card-body">
         <div class="tab-content">
           <div class="tab-pane fade show active" id="login">
-            <form id="loginForm" action="login" method="post">
+            <form id="loginForm">
               <div class="form-group row">
                 <label for="loginEmail" class="col-sm-2 col-form-label">Email</label>
                 <div class="col-sm-10">
@@ -210,7 +210,7 @@
             </a>
           </div>
           <div class="tab-pane fade" id="signup">
-            <form id="signupForm" action="signup" method="post">
+            <form id="signupForm">
               <div class="form-group row">
                 <label for="signupEmail" class="col-sm-2 col-form-label">Email</label>
                 <div class="col-sm-10">
