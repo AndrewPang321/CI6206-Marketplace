@@ -22,6 +22,7 @@
   <!-- Bootstrap core JavaScript -->
   <script src="lib/jquery/jquery.min.js"></script>
   <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-formhelpers/2.3.0/js/bootstrap-formhelpers.min.js"></script>
 
   <!-- JavaScript files -->
   <script src="js/util.js"></script>
@@ -119,8 +120,14 @@
                   break;
                 case 400:
                   showAlert({
-                    message: 'Email already existed. Please try another one',
+                    message: 'Some problems occur. Please try again',
                     class: 'danger'
+                  });
+                  break;
+                case 409:
+                  showAlert({
+                      message: 'Email already existed. Please try another one',
+                      class: 'danger'
                   });
                   break;
                 default:
@@ -227,7 +234,57 @@
                 <label for="signupConfirmPassword" class="col-sm-2 col-form-label">Confirm Password</label>
                 <div class="col-sm-10">
                   <input type="password" class="form-control" id="signupConfirmPassword" name="signupConfirmPassword" placeholder="Confirm Password"
-                    required>
+                         required>
+                </div>
+              </div>
+              <hr>
+              <div class="form-group row">
+                <label for="signupFirstName" class="col-sm-2 col-form-label">Firstname</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="signupFirstName" name="signupFirstName" required>
+                </div>
+                <label for="signupLastName" class="col-sm-2 col-form-label">Lastname</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="signupLastName" name="signupLastName" required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="signupDateOfBirth" class="col-sm-2 col-form-label">Date of birth</label>
+                <div class="col-sm-4">
+                  <input type="date" class="form-control" id="signupDateOfBirth" name="signupDateOfBirth" required>
+                </div>
+                <label for="signupGender" class="col-sm-2 col-form-label">Gender</label>
+                <div class="col-sm-4">
+                  <select class="form-control" id="signupGender" name="signupGender" required>
+                    <option value="M">M</option>
+                    <option value="F">F</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="signupUsername" class="col-sm-2 col-form-label">Username</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="signupUsername" name="signupUsername" required>
+                </div>
+                <label for="signupContact" class="col-sm-2 col-form-label">Contact</label>
+                <div class="col-sm-4">
+                  <input type="number" class="form-control" id="signupContact" name="signupContact" placeholder="12345678" required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="signupAddress" class="col-sm-2 col-form-label">Address</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="signupAddress" name="signupAddress" required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="signupPostalCode" class="col-sm-2 col-form-label">Postal code</label>
+                <div class="col-sm-4">
+                  <input type="number" class="form-control" id="signupPostalCode" name="signupPostalCode" required>
+                </div>
+                <label for="signupCountry" class="col-sm-2 col-form-label">Country</label>
+                <div class="col-sm-4">
+                  <select class="form-control input-medium bfh-countries" id="signupCountry" name="signupCountry" data-country="SG"></select>
                 </div>
               </div>
               <button type="submit" class="btn btn-success">Sign Up</button>

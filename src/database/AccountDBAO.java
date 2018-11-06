@@ -10,14 +10,14 @@ import exception.*;
 
 public class AccountDBAO {
 
-    Connection con;
+    private Connection con;
     private boolean conFree = true;
 
     // Database configuration
-    public static String url = "jdbc:mysql://127.0.0.1:3306/marketplace";
-    public static String dbdriver = "com.mysql.jdbc.Driver";
-    public static String username = "root";
-    public static String password = "";
+    private static String url = "jdbc:mysql://127.0.0.1:3306/marketplace";
+    private static String dbdriver = "com.mysql.jdbc.Driver";
+    private static String username = "root";
+    private static String password = "";
 
     public AccountDBAO() throws Exception {
         try {
@@ -38,7 +38,7 @@ public class AccountDBAO {
     }
 
     protected synchronized Connection getConnection() {
-        while (conFree == false) {
+        while (!conFree) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -53,7 +53,7 @@ public class AccountDBAO {
     }
 
     protected synchronized void releaseConnection() {
-        while (conFree == true) {
+        while (conFree) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -67,6 +67,7 @@ public class AccountDBAO {
 
     public User getUser(String email) throws UserNotFoundException {
         User user = null;
+
         try {
             String sqlStatement = "SELECT * FROM t_user WHERE t_user.email = ?";
             getConnection();
@@ -101,7 +102,6 @@ public class AccountDBAO {
             releaseConnection();
             throw new UserNotFoundException(ex.getMessage());
         }
-
         releaseConnection();
         return user;
     }
@@ -109,6 +109,7 @@ public class AccountDBAO {
     public UserAccount getUserAccount(int user_id) throws UserNotFoundException {
         UserAccount userAccount = null;
         boolean acquireConnection = false;
+
         try {
             String sqlStatement = "SELECT * FROM t_user_account WHERE t_user_account.user_id = ?";
             if (conFree) {
@@ -134,6 +135,72 @@ public class AccountDBAO {
             releaseConnection();
         }
         return userAccount;
+    }
+
+    public int addUser(String email, String firstname, String lastname, String dateOfBirth, String gender,
+                        String contact, String address, String country, String postal_code) throws SignUpException {
+        int user_id = -1;
+
+        try {
+            String sqlStatement = "INSERT INTO t_user(email, firstname, lastname, date_of_birth, gender, contact, " +
+                    "address, country, postal_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            getConnection();
+
+            PreparedStatement prepStmt = con.prepareStatement(sqlStatement);
+            prepStmt.setString(1, email);
+            prepStmt.setString(2, firstname);
+            prepStmt.setString(3, lastname);
+            prepStmt.setString(4, dateOfBirth);
+            prepStmt.setString(5, gender);
+            prepStmt.setString(6, contact);
+            prepStmt.setString(7, address);
+            prepStmt.setString(8, country);
+            prepStmt.setString(9, postal_code);
+            prepStmt.executeUpdate();
+
+            String getIdStatement = "SELECT * FROM t_user WHERE t_user.email = ?";
+            prepStmt = con.prepareStatement(getIdStatement);
+            prepStmt.setString(1, email);
+            ResultSet rs = prepStmt.executeQuery();
+
+            if (rs.next()) {
+                user_id = rs.getInt("user_id");
+            }
+
+            prepStmt.close();
+        } catch (SQLException ex) {
+            releaseConnection();
+            throw new SignUpException(ex.getMessage());
+        }
+        releaseConnection();
+        return user_id;
+    }
+
+    public void addUserAccount(int user_id, String username, String password) throws SignUpException {
+        boolean acquireConnection = false;
+
+        try {
+            String sqlStatement = "INSERT INTO t_user_account(user_id, username, password) VALUES (?, ?, ?)";
+            if (conFree) {
+                getConnection();
+                acquireConnection = true;
+            }
+
+            PreparedStatement prepStmt = con.prepareStatement(sqlStatement);
+            prepStmt.setInt(1, user_id);
+            prepStmt.setString(2, username);
+            prepStmt.setString(3, password);
+            prepStmt.executeUpdate();
+
+            prepStmt.close();
+        } catch (SQLException ex) {
+            releaseConnection();
+            throw new SignUpException(ex.getMessage());
+        }
+
+        if (acquireConnection) {
+            releaseConnection();
+        }
     }
 
 }
