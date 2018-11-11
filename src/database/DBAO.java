@@ -8,7 +8,7 @@ import java.util.Date;
 
 import exception.*;
 
-public class AccountDBAO {
+public class DBAO {
 
     private Connection con;
     private boolean conFree = true;
@@ -19,12 +19,12 @@ public class AccountDBAO {
     private static String username = "root";
     private static String password = "";
 
-    public AccountDBAO() throws Exception {
+    public DBAO() throws Exception {
         try {
             Class.forName(dbdriver);
             con = DriverManager.getConnection(url, username, password);
         } catch (Exception ex) {
-            System.out.println("Exception in AccountDBAO: " + ex);
+            System.out.println("Exception in DBAO: " + ex);
             throw new Exception("Couldn't open connection to database: " + ex.getMessage());
         }
     }

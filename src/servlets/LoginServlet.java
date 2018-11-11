@@ -1,6 +1,6 @@
 package servlets;
 
-import database.AccountDBAO;
+import database.DBAO;
 import database.User;
 
 import java.io.IOException;
@@ -33,8 +33,8 @@ public class LoginServlet extends HttpServlet {
 
         try {
             if (!"".equals(email) && !"".equals(password)) {
-                AccountDBAO accountDB = new AccountDBAO();
-                User user = accountDB.getUser(email);
+                DBAO DB = new DBAO();
+                User user = DB.getUser(email);
                 if (user != null) {
                     if (BCrypt.checkpw(password, user.getUserAccount().getPassword())) {
                         // TODO: Save into Session

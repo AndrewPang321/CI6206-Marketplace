@@ -1,6 +1,6 @@
 package servlets;
 
-import database.AccountDBAO;
+import database.DBAO;
 import database.User;
 
 import java.io.IOException;
@@ -74,18 +74,18 @@ public class SignUpServlet extends HttpServlet {
         }
 
         try {
-            AccountDBAO accountDB = new AccountDBAO();
+            DBAO DB = new DBAO();
 
             // Check for duplicated sign up email
-            User user = accountDB.getUser(email);
+            User user = DB.getUser(email);
             if (user != null) {
                 // Authentication failed, 409: duplicate entities
                 response.setStatus(409);
                 return;
             }
 
-            int user_id = accountDB.addUser(email, firstname, password, dateOfBirth, gender, contactAsString, address, country, postalCodeAsString);
-            accountDB.addUserAccount(user_id, username, BCrypt.hashpw(password, BCrypt.gensalt()));
+            int user_id = DB.addUser(email, firstname, password, dateOfBirth, gender, contactAsString, address, country, postalCodeAsString);
+            DB.addUserAccount(user_id, username, BCrypt.hashpw(password, BCrypt.gensalt()));
             // TODO: Login and Save into Session
 
             // Sign up success, 201: Created
