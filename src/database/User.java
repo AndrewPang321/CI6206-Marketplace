@@ -4,6 +4,8 @@ import java.util.Date;
 
 public class User {
 
+    public static User currentUser = null;
+
     private int user_id;
     private String email;
     private String firstname;

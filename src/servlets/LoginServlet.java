@@ -41,6 +41,8 @@ public class LoginServlet extends HttpServlet {
                 if (user != null) {
                     if (BCrypt.checkpw(password, user.getUserAccount().getPassword())) {
                         httpSession.setAttribute("user", user);
+                        // Using static variable to achieve the same purpose as httpsession but available outside servlets
+                        User.currentUser = user;
                         // Authentication success, 200: Success
                         response.setStatus(200);
 //                        System.out.println(((User)httpSession.getAttribute("user")).getUserId());

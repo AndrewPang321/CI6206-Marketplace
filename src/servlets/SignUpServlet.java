@@ -89,7 +89,11 @@ public class SignUpServlet extends HttpServlet {
 
             int user_id = DB.addUser(email, firstname, password, dateOfBirth, gender, contactAsString, address, country, postalCodeAsString);
             DB.addUserAccount(user_id, username, BCrypt.hashpw(password, BCrypt.gensalt()));
-            httpSession.setAttribute("user", DB.getUser(email));
+            // Get updated user info
+            user = DB.getUser(email);
+            httpSession.setAttribute("user", user);
+            // Using static variable to achieve the same purpose as httpsession but available outside servlets
+            User.currentUser = user;
             // Sign up success, 201: Created
             response.setStatus(201);
         } catch (Exception ex) {
