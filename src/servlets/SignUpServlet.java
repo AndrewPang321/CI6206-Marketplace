@@ -13,6 +13,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
@@ -34,6 +36,7 @@ public class SignUpServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession httpSession = request.getSession();
         String email = request.getParameter("signupEmail");
         String password = request.getParameter("signupPassword");
         String confirmPassword = request.getParameter("signupConfirmPassword");
@@ -86,8 +89,7 @@ public class SignUpServlet extends HttpServlet {
 
             int user_id = DB.addUser(email, firstname, password, dateOfBirth, gender, contactAsString, address, country, postalCodeAsString);
             DB.addUserAccount(user_id, username, BCrypt.hashpw(password, BCrypt.gensalt()));
-            // TODO: Login and Save into Session
-
+            httpSession.setAttribute("user", DB.getUser(email));
             // Sign up success, 201: Created
             response.setStatus(201);
         } catch (Exception ex) {

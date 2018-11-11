@@ -9,6 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
@@ -28,6 +30,7 @@ public class LoginServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession httpSession = request.getSession();
         String email = request.getParameter("loginEmail");
         String password = request.getParameter("loginPassword");
 
@@ -37,9 +40,10 @@ public class LoginServlet extends HttpServlet {
                 User user = DB.getUser(email);
                 if (user != null) {
                     if (BCrypt.checkpw(password, user.getUserAccount().getPassword())) {
-                        // TODO: Save into Session
+                        httpSession.setAttribute("user", user);
                         // Authentication success, 200: Success
                         response.setStatus(200);
+//                        System.out.println(((User)httpSession.getAttribute("user")).getUserId());
                         return;
                     }
                 }
