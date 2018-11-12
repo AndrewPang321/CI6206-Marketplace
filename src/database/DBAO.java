@@ -4,6 +4,7 @@ import java.sql.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import exception.*;
@@ -14,10 +15,10 @@ public class DBAO {
     private boolean conFree = true;
 
     // Database configuration
-    private static String url = "jdbc:mysql://127.0.0.1:3306/marketplace";
+    private static String url = "jdbc:mysql://161.117.121.110:3306/marketplace";
     private static String dbdriver = "com.mysql.jdbc.Driver";
-    private static String username = "root";
-    private static String password = "";
+    private static String username = "andrew";
+    private static String password = "Password123";
 
     public DBAO() throws Exception {
         try {
@@ -239,6 +240,70 @@ public class DBAO {
             releaseConnection();
         }
         return item_id;
+    }
+
+    public ArrayList<Item> getAllItem() throws GeneralException {
+        ArrayList<Item> allItems = new ArrayList<Item>();
+
+        try {
+            String sqlStatement = "SELECT * FROM t_item";
+            getConnection();
+
+            PreparedStatement prepStmt = con.prepareStatement(sqlStatement);
+            ResultSet rs = prepStmt.executeQuery();
+
+            while (rs.next()) {
+                Item item = new Item(rs.getInt("item_id"), rs.getInt("user_id"),
+                        rs.getString("item_title"), rs.getString("item_category"),
+                        rs.getString("item_description"), rs.getString("item_condition"),
+                        rs.getString("item_location"), rs.getString("item_delivery_mode"),
+                        rs.getInt("item_like_count"), rs.getString("item_status"),
+                        rs.getFloat("selling_price"), rs.getFloat("shipping_fee"),
+                        rs.getString("active"), rs.getString("remarks"));
+//                item.setItemPhoto(getItemPhoto(item.getItemId()));
+                allItems.add(item);
+            }
+
+            prepStmt.close();
+        } catch (SQLException ex) {
+            releaseConnection();
+            throw new GeneralException(ex.getMessage());
+        }
+        releaseConnection();
+        return allItems;
+    }
+
+    public ItemPhoto getItemPhoto(int item_id) throws GeneralException {
+        ItemPhoto itemPhoto = null;
+        boolean acquireConnection = false;
+
+        try {
+            String sqlStatement = "SELECT * FROM t_item_photo where item_id = ?";
+            if (conFree) {
+                getConnection();
+                acquireConnection = true;
+            }
+
+            PreparedStatement prepStmt = con.prepareStatement(sqlStatement);
+            prepStmt.setInt(1, item_id);
+            ResultSet rs = prepStmt.executeQuery();
+
+            if (rs.next()) {
+                itemPhoto = new ItemPhoto(rs.getInt("item_id"), rs.getString("photo_name"),
+                        rs.getString("photo"), rs.getString("active"),
+                        rs.getString("remarks"));
+            }
+
+            prepStmt.close();
+        } catch (SQLException ex) {
+            releaseConnection();
+            throw new GeneralException(ex.getMessage());
+        }
+
+        if (acquireConnection) {
+            releaseConnection();
+        }
+        return itemPhoto;
     }
 
 }
