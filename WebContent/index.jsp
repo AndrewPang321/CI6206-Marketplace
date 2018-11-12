@@ -29,29 +29,38 @@
         var str = "";
         $.get("homepage", function(output) {
             itemsCollection = output;
-            console.log(itemsCollection);
-            console.log(itemsCollection.length);
-
             itemsCollection.forEach(function(item) {
                 str += '<div class="col-lg-4 col-md-6 mb-4">';
                 str += '<div class="card h-100">';
                 str += '<a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>';
                 str += '<div class="card-body">';
                 str += '<h4 class="card-title">';
-                str += '<a href="#">' + item.item_title + '</a>';
+                str += '<a id="itemTitle" data-toggle="modal" href="#itemModal">' + item.item_title + '</a>';
+                str += '<div id="itemId" style="display:none">' + item.item_id + '</div>';
+                str += '<div id="itemUserId" style="display:none">' + item.user_id + '</div>';
                 str += '</h4>';
                 str += '<h5>$' + item.selling_price + '</h5>';
                 str += '<p class="card-text">' + item.item_description + '</p>';
                 str += '</div>';
-                str += '<div class="card-footer">';
-                str += '<small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>';
-                str += '</div>';
+                // str += '<div class="card-footer">';
+                // str += '<small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>';
+                // str += '</div>';
                 str += '</div>';
                 str += '</div>';
             });
             $("#collection").html(str);
         });
+
+        $("#itemModal").on("show.bs.modal", function(event) {
+            var itemId = $(event.relatedTarget).parent().find("#itemId").text();
+            var itemUserId = $(event.relatedTarget).parent().find("#itemUserId").text();
+            var itemTitle = $(event.relatedTarget).parent().find("#itemTitle").text();
+            $("#itemModalTitle").text(itemTitle);
+            console.log("Item ID: " + itemId);
+            console.log("User ID in item: " + itemUserId);
+        });
     });
+
   </script>
 
   <body>
@@ -161,6 +170,28 @@
 
     </div>
     <!-- /.container -->
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="itemModal" tabindex="-1" role="dialog" aria-labelledby="itemModalTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="itemModalTitle"></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Footer -->
     <footer class="py-5 bg-dark">
