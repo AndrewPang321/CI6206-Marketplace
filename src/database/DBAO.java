@@ -202,5 +202,43 @@ public class DBAO {
             releaseConnection();
         }
     }
+    
+    public int addItem(int user_id, String item_title, String item_category, String item_description, String item_condition,
+    		String item_location, String item_delivery_mode, float selling_price, float shipping_fee) throws GeneralException {
+        boolean acquireConnection = false;
+        int item_id = -1;
+        
+        try {
+            String sqlStatement = "INSERT INTO t_item(user_id, item_title, item_category, " + 
+            		"item_description, item_condition, item_location, item_delivery_mode, " +
+            		"selling_price, shipping_fee) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            if (conFree) {
+                getConnection();
+                acquireConnection = true;
+            }
+
+            PreparedStatement prepStmt = con.prepareStatement(sqlStatement);
+            prepStmt.setInt(1, user_id);
+            prepStmt.setString(2, item_title);
+            prepStmt.setString(3, item_category);
+            prepStmt.setString(4, item_description);
+            prepStmt.setString(5, item_condition);
+            prepStmt.setString(6, item_location);
+            prepStmt.setString(7, item_delivery_mode);
+            prepStmt.setFloat(8, selling_price);
+            prepStmt.setFloat(9, shipping_fee);
+            prepStmt.executeUpdate();
+
+            prepStmt.close();
+        } catch (SQLException ex) {
+            releaseConnection();
+            throw new GeneralException(ex.getMessage());
+        }
+
+        if (acquireConnection) {
+            releaseConnection();
+        }
+        return item_id;
+    }
 
 }
