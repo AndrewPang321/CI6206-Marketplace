@@ -24,6 +24,23 @@ public class Item {
     /** Constructors **/
     public Item() {}
 
+    public Item(int item_id, int user_id, String item_title, String item_category, String item_description, String item_condition, String item_location, String item_delivery_mode, int item_like_count, String item_status, float selling_price, float shipping_fee, String active, String remarks) {
+        this.item_id = item_id;
+        this.user_id = user_id;
+        this.item_title = item_title;
+        this.item_category = item_category;
+        this.item_description = item_description;
+        this.item_condition = item_condition;
+        this.item_location = item_location;
+        this.item_delivery_mode = item_delivery_mode;
+        this.item_like_count = item_like_count;
+        this.item_status = item_status;
+        this.selling_price = selling_price;
+        this.shipping_fee = shipping_fee;
+        this.active = active;
+        this.remarks = remarks;
+    }
+
     public Item(int user_id, String item_title, String item_category, String item_description, String item_condition, String item_location, String item_delivery_mode, int item_like_count, String item_status, float selling_price, float shipping_fee, String active, String remarks) {
     	this.user_id = user_id;
     	this.item_title = item_title;
