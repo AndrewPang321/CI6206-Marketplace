@@ -1,5 +1,6 @@
 package database;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class User {
@@ -21,13 +22,13 @@ public class User {
     private String remarks;
 
     private UserAccount userAccount;
-    private Item item;
+    private ArrayList<Item> item;
 
-    public Item getItem() {
+    public ArrayList<Item> getItem() {
 		return item;
 	}
 
-	public void setItem(Item item) {
+	public void setItem(ArrayList<Item> item) {
 		this.item = item;
 	}
 
@@ -62,6 +63,17 @@ public class User {
         this.remarks = remarks;
         this.userAccount = userAccount;
         this.userAccount.setUser(this);
+    }
+    
+    public User(String email, String firstname, String lastname, String gender, int contact, String address, ArrayList<Item> item) {
+        this.email = email;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.gender = gender;
+        this.contact = contact;
+        this.address = address;
+        this.item = item;
+        
     }
 
     /** Getters **/
