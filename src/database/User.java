@@ -21,8 +21,17 @@ public class User {
     private String remarks;
 
     private UserAccount userAccount;
+    private Item item;
 
-    /** Constructors **/
+    public Item getItem() {
+		return item;
+	}
+
+	public void setItem(Item item) {
+		this.item = item;
+	}
+
+	/** Constructors **/
     public User() {}
 
     public User(String email, String firstname, String lastname, Date dateOfBirth, String gender, int contact, String address, int postalCode, String country, UserAccount userAccount) {
