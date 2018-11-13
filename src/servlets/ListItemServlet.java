@@ -46,6 +46,7 @@ public class ListItemServlet extends HttpServlet {
 		HttpSession httpSession = request.getSession(true);
 		
 		String item_title = request.getParameter("item_title");
+		String photo = request.getParameter("photo");
         String item_category = request.getParameter("item_category");
         String item_description = request.getParameter("item_description");
         String item_condition = request.getParameter("item_condition");
@@ -61,6 +62,7 @@ public class ListItemServlet extends HttpServlet {
             DBAO DB = new DBAO();
 
             int item_id = DB.addItem(user_id, item_title, item_category, item_description, item_condition, item_location, item_delivery_mode, selling_price, shipping_fee);
+            int item_photo_id = DB.addItemPhoto(item_id, photo_name, photo);
 
             // Sign up success, 201: Created
             response.setStatus(201);
