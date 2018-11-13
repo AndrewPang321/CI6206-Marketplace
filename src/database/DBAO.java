@@ -305,6 +305,38 @@ public class DBAO {
         }
         return itemPhoto;
     }
+     public ArrayList<Item> getAllItems(int user_id) throws GeneralException {
+        ArrayList<Item> allItems = new ArrayList<Item>();
+
+        try {
+            String sqlStatement = "SELECT * FROM t_item where t.user_id = ?";
+            getConnection();
+            
+
+            PreparedStatement prepStmt = con.prepareStatement(sqlStatement);
+            prepStmt.setInt(1, user_id);
+            ResultSet rs = prepStmt.executeQuery();
+
+            while (rs.next()) {
+                Item item = new Item(rs.getInt("item_id"), rs.getInt("user_id"),
+                        rs.getString("item_title"), rs.getString("item_category"),
+                        rs.getString("item_description"), rs.getString("item_condition"),
+                        rs.getString("item_location"), rs.getString("item_delivery_mode"),
+                        rs.getInt("item_like_count"), rs.getString("item_status"),
+                        rs.getFloat("selling_price"), rs.getFloat("shipping_fee"),
+                        rs.getString("active"), rs.getString("remarks"));
+//                item.setItemPhoto(getItemPhoto(item.getItemId()));
+                allItems.add(item);
+            }
+
+            prepStmt.close();
+        } catch (SQLException ex) {
+            releaseConnection();
+            throw new GeneralException(ex.getMessage());
+        }
+        releaseConnection();
+        return allItems;
+    }
     public User getSeller(int seller_id) throws Exception {
         User user = null;
         try {
@@ -317,7 +349,7 @@ public class DBAO {
 
             if (rs.next()) {
             	int user_id = rs.getInt("user_id");
-            	Item item = getAllItems(user_id);
+            	ArrayList<Item> item = getAllItems(user_id);
                 user = new User(rs.getString("email"), rs.getString("firstname"), rs.getString("lastname")
                 				, rs.getString("gender"), rs.getInt("contact")
                     			, rs.getString("country")
@@ -332,5 +364,4 @@ public class DBAO {
         releaseConnection();
         return user;
     }
-
 }
