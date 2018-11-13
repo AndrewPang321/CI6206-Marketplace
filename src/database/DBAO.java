@@ -305,5 +305,32 @@ public class DBAO {
         }
         return itemPhoto;
     }
+    public User getSeller(int seller_id) throws Exception {
+        User user = null;
+        try {
+            String sqlStatement = "SELECT * FROM t_user WHERE t_user.id = ?";
+            getConnection();
+
+            PreparedStatement prepStmt = con.prepareStatement(sqlStatement);
+            prepStmt.setInt(1, seller_id);
+            ResultSet rs = prepStmt.executeQuery();
+
+            if (rs.next()) {
+            	int user_id = rs.getInt("user_id");
+            	Item item = getAllItems(user_id);
+                user = new User(rs.getString("email"), rs.getString("firstname"), rs.getString("lastname")
+                				, rs.getString("gender"), rs.getInt("contact")
+                    			, rs.getString("country")
+                    			, item);
+            	
+            }
+            prepStmt.close();
+        } catch (SQLException ex) {
+            releaseConnection();
+            throw new UserNotFoundException(ex.getMessage());
+        }
+        releaseConnection();
+        return user;
+    }
 
 }
