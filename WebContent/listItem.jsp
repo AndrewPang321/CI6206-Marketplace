@@ -151,7 +151,7 @@
                 </div>
                 <label for="selling_price" class="col-sm-2 col-form-label">Selling Price</label>
                 <div class="col-sm-4">
-                  <input type="number" class="form-control" id="selling_price" name="selling_price" required>
+                  <input type="number" step="0.01" class="form-control" id="selling_price" name="selling_price" required>
                 </div>
               </div>
               <div class="form-group row">
@@ -167,7 +167,7 @@
                 </div>
                 <label for="shipping_fee" class="col-sm-2 col-form-label">Shipping Fee</label>
                 <div class="col-sm-4">
-                  <input type="number" class="form-control" id="shipping_fee" name="shipping_fee">
+                  <input type="number" step="0.01" class="form-control" id="shipping_fee" name="shipping_fee">
                 </div>
               </div>
               <button type="submit" class="btn btn-success">List Item</button>

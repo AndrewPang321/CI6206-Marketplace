@@ -14,9 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
+
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
@@ -43,20 +46,23 @@ public class ListItemServlet extends HttpServlet {
 		HttpSession httpSession = request.getSession(true);
 		
 		String item_title = request.getParameter("item_title");
+		String photo = request.getParameter("photo");
         String item_category = request.getParameter("item_category");
         String item_description = request.getParameter("item_description");
         String item_condition = request.getParameter("item_condition");
         String item_location = request.getParameter("item_location");
-        String item_delivery_mode = request.getParameter("item_delivery_mode");
-        float selling_price = Float.valueOf("selling_price");
-        float shipping_fee = Float.valueOf("shipping_fee");
+        String item_delivery_mode = request.getParameter("item_delivery_mode");        
+        float selling_price = Float.parseFloat(request.getParameter("selling_price"));
+        float shipping_fee = Float.parseFloat(request.getParameter("shipping_fee"));
         
         int user_id = 1;
+        //int user_id = User.currentUser.getUserId();
         
         try {
             DBAO DB = new DBAO();
 
             int item_id = DB.addItem(user_id, item_title, item_category, item_description, item_condition, item_location, item_delivery_mode, selling_price, shipping_fee);
+            // int item_photo_id = DB.addItemPhoto(item_id, photo_name, photo);
 
             // Sign up success, 201: Created
             response.setStatus(201);
