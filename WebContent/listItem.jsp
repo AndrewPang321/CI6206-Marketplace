@@ -67,12 +67,32 @@
             });
         });
       });
+    
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader(); 
+            
+            reader.onload = function (e) {
+                $('#image')
+                    .attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+            
+            var x = document.getElementById("photo").value;
+            // get the file name from full path
+            var x = x.replace(/^.*[\\\/]/, '')
+            document.getElementById("photo_name").innerHTML = x;
+        }
+    }
+    	
+    
     </script>
 
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="#">Marketplace</a>
+      <a class="navbar-brand" href="index.html">Marketplace</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
         aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -102,7 +122,7 @@
   </nav>
 
   <!-- Page Content -->
-  <div class="listItemContainer">
+  <div class="listItemContainer mt-4 mb-4">
     <div class="loader"></div>
     <div class="card text-center mx-auto">
       <div class="card-header">
@@ -125,7 +145,9 @@
               <div class="form-group row">
                 <label for="photo" class="col-sm-2 col-form-label">Photo</label>
                 <div class="col-sm-10">
-                  <input type="file" class="form-control" id="photo" name="photo" size="20" />
+                  <input type="file" class="form-control" id="photo" name="photo" size="20" onchange="readURL(this);" />
+				  <img id="image" src="" style="width:150px" />
+                  <p id="photo_name"></p>
                 </div>
               </div>
               <div class="form-group row">

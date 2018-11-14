@@ -1,13 +1,14 @@
 package servlets;
 
-import database.Item;
+
 import database.DBAO;
 import database.User;
 
 import java.io.IOException;
-import java.util.ArrayList;
+
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -38,8 +39,9 @@ public class SellerProfileServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@SuppressWarnings("unlikely-arg-type")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int sellerId = request.getParameter("sellerId");
+		int sellerId = Integer.parseInt(request.getParameter("sellerId"));
 		
 		boolean result = false;
         try {
@@ -48,7 +50,7 @@ public class SellerProfileServlet extends HttpServlet {
                 User seller = accountDB.getSeller(sellerId);
                 if (seller != null) {
                         response.setStatus(200);
-                        model.addAttribute("sellerProfile", seller);
+                        ((ServletRequest) response).setAttribute("sellerProfile", seller);
                         result = true;
                         return;
                 }
