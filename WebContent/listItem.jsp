@@ -67,6 +67,26 @@
             });
         });
       });
+    
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader(); 
+            
+            reader.onload = function (e) {
+                $('#image')
+                    .attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+            
+            var x = document.getElementById("photo").value;
+            // get the file name from full path
+            var x = x.replace(/^.*[\\\/]/, '')
+            document.getElementById("photo_name").innerHTML = x;
+        }
+    }
+    	
+    
     </script>
 
   <!-- Navigation -->
@@ -125,7 +145,9 @@
               <div class="form-group row">
                 <label for="photo" class="col-sm-2 col-form-label">Photo</label>
                 <div class="col-sm-10">
-                  <input type="file" class="form-control" id="photo" name="photo" size="20" />
+                  <input type="file" class="form-control" id="photo" name="photo" size="20" onchange="readURL(this);" />
+				  <img id="image" src="" style="width:150px" />
+                  <p id="photo_name"></p>
                 </div>
               </div>
               <div class="form-group row">
@@ -151,7 +173,7 @@
                 </div>
                 <label for="selling_price" class="col-sm-2 col-form-label">Selling Price</label>
                 <div class="col-sm-4">
-                  <input type="number" class="form-control" id="selling_price" name="selling_price" required>
+                  <input type="number" step="0.01" class="form-control" id="selling_price" name="selling_price" required>
                 </div>
               </div>
               <div class="form-group row">
@@ -167,7 +189,7 @@
                 </div>
                 <label for="shipping_fee" class="col-sm-2 col-form-label">Shipping Fee</label>
                 <div class="col-sm-4">
-                  <input type="number" class="form-control" id="shipping_fee" name="shipping_fee">
+                  <input type="number" step="0.01" class="form-control" id="shipping_fee" name="shipping_fee">
                 </div>
               </div>
               <button type="submit" class="btn btn-success">List Item</button>
