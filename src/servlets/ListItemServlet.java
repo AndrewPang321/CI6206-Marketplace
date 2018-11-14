@@ -62,7 +62,11 @@ public class ListItemServlet extends HttpServlet {
             DBAO DB = new DBAO();
 
             int item_id = DB.addItem(user_id, item_title, item_category, item_description, item_condition, item_location, item_delivery_mode, selling_price, shipping_fee);
+<<<<<<< HEAD
             // int item_photo_id = DB.addItemPhoto(item_id, photo_name, photo);
+=======
+            int item_photo_id = DB.addItemPhoto(item_id, photo_name, photo);
+>>>>>>> branch 'amos' of https://github.com/AndrewPang321/CI6206-Marketplace
 
             // Sign up success, 201: Created
             response.setStatus(201);
