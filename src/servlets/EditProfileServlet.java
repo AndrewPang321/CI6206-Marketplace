@@ -18,13 +18,13 @@ import java.util.Date;
  * Servlet implementation class EditProfile
  */
 @WebServlet("/EditUserProfile")
-public class EditProfile extends HttpServlet {
+public class EditProfileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public EditProfile() {
+    public EditProfileServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
