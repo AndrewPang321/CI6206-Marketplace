@@ -76,7 +76,7 @@ public class User {
         
     }
     //for current user
-    public User(String email, String firstname, String lastname, Date dateOfBirth, String gender, int contact, String address, int postalCode, String country, UserAccount userAccount, ArrayList<Item> item) {
+    public User(String email, String firstname, String lastname, Date dateOfBirth, String gender, int contact, String address, int postalCode, String country) {
         this.email = email;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -86,9 +86,6 @@ public class User {
         this.address = address;
         this.postalCode = postalCode;
         this.country = country;
-        this.userAccount = userAccount;
-        this.userAccount.setUser(this);
-        this.item = item;
     }
 
     /** Getters **/
