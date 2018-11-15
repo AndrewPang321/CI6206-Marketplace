@@ -25,10 +25,12 @@
     <!-- JavaScript files -->
 	<script src="js/util.js"></script>
 	<script src="js/login.js"></script>
+	<script src="js/auth.js"></script>
 
   </head>
   <script>
       $(document).ready(function() {
+    	  loginLogoutToggle();
           var itemsCollection;
           var str = "";
           $.get("userhome", function(output) {
@@ -36,10 +38,10 @@
               itemsCollection.forEach(function(item) {
                   str += '<div class="col-lg-4 col-md-6 mb-4">';
                   str += '<div class="card h-100">';
-                  str += '<a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>';
+                  str += '<a href="itemDetails.jsp"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>';
                   str += '<div class="card-body">';
                   str += '<h4 class="card-title">';
-                  str += '<a id="itemTitle" data-toggle="modal" href="#itemModal">' + item.item_title + '</a>';
+                  str += '<a href="itemDetails.jsp"><div id="itemTitle" data-toggle="modal">' + item.item_title + '</div></a>';                  
                   str += '<div id="itemId" style="display:none">' + item.item_id + '</div>';
                   str += '<div id="itemUserId" style="display:none">' + item.user_id + '</div>';
                   str += '</h4>';
@@ -55,14 +57,14 @@
               $("#collection").html(str);
           });
 
-          $("#itemModal").on("show.bs.modal", function(event) {
+          /* $("#itemModal").on("show.bs.modal", function(event) {
               var itemId = $(event.relatedTarget).parent().find("#itemId").text();
               var itemUserId = $(event.relatedTarget).parent().find("#itemUserId").text();
               var itemTitle = $(event.relatedTarget).parent().find("#itemTitle").text();
               $("#itemModalTitle").text(itemTitle);
               console.log("Item ID: " + itemId);
               console.log("User ID in item: " + itemUserId);
-          });
+          }); */
       });
 
   </script>
@@ -93,12 +95,9 @@
               <a class="nav-link" href="#">Contact</a>
             </li>
             <li class="nav-item">
-<<<<<<< HEAD
-              <a class="nav-link" href="login.jsp">Logout</a>
-=======
-              <a class="nav-link" href="userProfile.html">Profile</a>
->>>>>>> branch 'amos' of https://github.com/AndrewPang321/CI6206-Marketplace
-            </li>
+				<a id="loginNav" class="nav-link" href="login.jsp">Login</a>
+				<button type="button" id="logoutNav" class="btn btn-dark" onclick="logout()">Logout</button>
+			</li>
           </ul>
         </div>
       </div>
@@ -111,10 +110,10 @@
 
         <div class="col-lg-3">
 
-          <h1 class="my-4">Flight Booking</h1>
+          <h1 class="my-4">Shop Name</h1>
           <div class="list-group">
             <a href="listItem.jsp" class="list-group-item">List Item</a>
-            <a href="#" class="list-group-item">Category 2</a>
+            <a href="userProfile.html" class="list-group-item">Profile</a>
             <a href="#" class="list-group-item">Category 3</a>
           </div>
 
@@ -181,7 +180,7 @@
     <!-- /.container -->
 
     <!-- Modal -->
-    <div class="modal fade" id="itemModal" tabindex="-1" role="dialog" aria-labelledby="itemModalTitle" aria-hidden="true">
+    <!-- <div class="modal fade" id="itemModal" tabindex="-1" role="dialog" aria-labelledby="itemModalTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -199,7 +198,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Footer -->
     <footer class="py-5 bg-dark">
