@@ -23,37 +23,27 @@
   </head>
   <script>
       $(document).ready(function() {
-          var sellerProfileDetails
+          var userProfileDetails
           var str = "";
           $.get("userProfile", function(output) {
-        	  sellerProfileDetails = output;
-              sellerProfileDetails.forEach(function(user) {
+        	  userProfileDetails = output;
+              userProfileDetails.forEach(function(user) {
             	  str += '<ul class="list-group">';
             	  str += '<li class="list-group-item">' + user.user_id + '</li>';
             	  str += '<li class="list-group-item">' + user.email + '</li>';
             	  str += '<li class="list-group-item">' + user.firstname + '</li>';
-                  str += '<li class="list-group-item">' + user.lastname + '</li>';
+                str += '<li class="list-group-item">' + user.lastname + '</li>';
+                str += '<li class="list-group-item">' + user.dateOfBirth + '</li>'; 
             	  str += '<li class="list-group-item">' + user.gender + '</li>'; 	
             	  str += '<li class="list-group-item">' + user.contact + '</li>'; 	
+                str += '<li class="list-group-item">' + user.address + '</li>'; 
+                str += '<li class="list-group-item">' + user.postalCode + '</li>'; 
             	  str += '<li class="list-group-item">' + user.country + '</li>'; 	
-            	  str += '</ul>';
-                  str += '<div class="col-lg-4 col-md-6 mb-4">';
-                  str += '<div class="card h-100">';
-                  str += '<a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>';
-                  str += '<div class="card-body">';
-                  str += '<h4 class="card-title">';
-                  str += '<a id="itemTitle" data-toggle="modal" href="#itemModal">' + user.getItem().item_title + '</a>';
-                  str += '<div id="itemId" style="display:none">' + user.getItem().item_id + '</div>';
-                  str += '<div id="itemUserId" style="display:none">' + user.getItem().user_id + '</div>';
-                  str += '</h4>';
-                  str += '<h5>$' + user.getItem().selling_price + '</h5>';
-                  str += '<p class="card-text">' + user.getItem().item_description + '</p>';
-                  str += '</div>';
-                  // str += '<div class="card-footer">';
-                  // str += '<small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>';
-                  // str += '</div>';
-                  str += '</div>';
-                  str += '</div>';
+                str += '<li class="list-group-item">' + user.UserAccount  + '</li>'; 
+                str += '<li class="list-group-item">';
+                str += '<a href="editProfile.jsp"> + 'Edit Profile' + '</a>' ;
+                str += '</li>'; 
+            	  str += '</ul>;
               });
               $("#collection").html(str);
           });
