@@ -364,4 +364,44 @@ public class DBAO {
         releaseConnection();
         return user;
     }
+    public User getCurrentUserProfile(int user_id) throws Exception {
+        User user = null;
+        try {
+            String sqlStatement = "SELECT * FROM t_user WHERE t_user.id = ?";
+            getConnection();
+            													
+            PreparedStatement prepStmt = con.prepareStatement(sqlStatement);
+            prepStmt.setInt(1, user_id);
+            ResultSet rs = prepStmt.executeQuery();
+
+            if (rs.next()) {
+
+                if (rs.next()) {
+                    int current_user_id = rs.getInt("user_id");
+                    ArrayList<Item> item = getAllItems(current_user_id);
+                    UserAccount userAccount = getUserAccount(current_user_id);
+
+                    // Convert date string to date object
+                    DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+                    Date dateOfBirthWithTypeDate = null;
+                    try {
+                        dateOfBirthWithTypeDate = dateFormatter.parse(rs.getString("date_of_birth"));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    user = new User(rs.getString("email"), rs.getString("firstname"), rs.getString("lastname")
+                            , dateOfBirthWithTypeDate, rs.getString("gender"), rs.getInt("contact")
+                            , rs.getString("address"), rs.getInt("postal_code"), rs.getString("country")
+                            , userAccount, item);
+                }    
+            }
+            prepStmt.close();
+        } catch (SQLException ex) {
+            releaseConnection();
+            throw new UserNotFoundException(ex.getMessage());
+        }
+        releaseConnection();
+        return user;
+    }
 }
