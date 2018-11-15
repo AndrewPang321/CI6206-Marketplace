@@ -20,9 +20,15 @@
     <script src="lib/jquery/jquery.min.js"></script>
     <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
 
+    <!-- JavaScript files -->
+    <script src="js/util.js"></script>
+    <script src="js/auth.js"></script>
+
   </head>
   <script>
       $(document).ready(function() {
+          loginLogoutToggle();
+
           var itemsCollection;
           var str = "";
           $.get("homepage", function(output) {
@@ -87,7 +93,8 @@
               <a class="nav-link" href="#">Contact</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="login.jsp">Login</a>
+              <a id="loginNav" class="nav-link" href="login.jsp">Login</a>
+              <button type="button" id="logoutNav" class="btn btn-dark" onclick="logout()">Logout</button>
             </li>
           </ul>
         </div>

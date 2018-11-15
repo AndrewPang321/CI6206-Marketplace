@@ -1,9 +1,12 @@
 package servlets;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import database.DBAO;
 import database.User;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,8 +28,18 @@ public class LoginServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Auto-generated method stub
-        response.getWriter().append("Served at: ").append(request.getContextPath());
+        JsonObject currentUser = new JsonObject();
+
+        if (User.currentUser != null) {
+            currentUser.addProperty("currentUserId", User.currentUser.getUserId());
+        } else {
+            currentUser.addProperty("currentUserId", -1);
+        }
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+        out.print(currentUser);
+        out.flush();
+        return;
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

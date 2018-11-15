@@ -21,13 +21,13 @@ import database.User;
  * Servlet implementation class UserProfile
  */
 @WebServlet("/userProfile")
-public class UserProfile extends HttpServlet {
+public class UserProfileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserProfile() {
+    public UserProfileServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
