@@ -27,7 +27,7 @@
           var str = "";
           $.get("sellerProfile", function(output) {
         	  sellerProfileDetails = output;
-              sellerProfileDetails.forEach(function(User) {
+              sellerProfileDetails.forEach(function(user) {
             	  str += '<ul class="list-group">';
             	  str += '<li class="list-group-item">' + user.user_id + '</li>';
             	  str += '<li class="list-group-item">' + user.email + '</li>';
