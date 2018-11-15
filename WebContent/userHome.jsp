@@ -93,7 +93,11 @@
               <a class="nav-link" href="#">Contact</a>
             </li>
             <li class="nav-item">
+<<<<<<< HEAD
               <a class="nav-link" href="login.jsp">Logout</a>
+=======
+              <a class="nav-link" href="userProfile.html">Profile</a>
+>>>>>>> branch 'amos' of https://github.com/AndrewPang321/CI6206-Marketplace
             </li>
           </ul>
         </div>
