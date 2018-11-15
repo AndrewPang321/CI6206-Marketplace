@@ -87,7 +87,7 @@
               <a class="nav-link" href="#">Contact</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="login.jsp">Login</a>
+              <a class="nav-link" href="userProfile.html">Profile</a>
             </li>
           </ul>
         </div>
