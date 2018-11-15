@@ -28,7 +28,7 @@ public class UserHomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
     	int user_id = User.currentUser.getUserId();
-    	System.out.print("User ID returned is: " + user_id);
+    	// System.out.print("User ID returned is: " + user_id);
         
         if ("".equals(user_id)) {
             // List item fail, 400: Bad Request

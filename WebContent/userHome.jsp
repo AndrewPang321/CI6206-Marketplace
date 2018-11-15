@@ -15,10 +15,16 @@
 
     <!-- Custom styles for this template -->
     <link href="css/shop-homepage.css" rel="stylesheet">
+    <link href="css/login.css" rel="stylesheet">
+	<link href="css/util.css" rel="stylesheet">
     
     <!-- Bootstrap core JavaScript -->
     <script src="lib/jquery/jquery.min.js"></script>
     <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- JavaScript files -->
+	<script src="js/util.js"></script>
+	<script src="js/login.js"></script>
 
   </head>
   <script>
@@ -66,14 +72,14 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="index.html">Marketplace</a>
+        <a class="navbar-brand" href="userHome.jsp">Marketplace</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="index.html">Home
+              <a class="nav-link" href="userHome.jsp">Home
                 <span class="sr-only">(current)</span>
               </a>
             </li>
@@ -87,7 +93,7 @@
               <a class="nav-link" href="#">Contact</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="login.jsp">Login</a>
+              <a class="nav-link" href="login.jsp">Logout</a>
             </li>
           </ul>
         </div>
