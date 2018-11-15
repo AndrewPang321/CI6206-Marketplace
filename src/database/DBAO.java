@@ -479,4 +479,49 @@ public class DBAO {
         releaseConnection();
         return user;
     }
+     public User updateUser(int user_id) throws SignUpException {
+    		User user = new User();
+    		try {
+    			/*"UPDATE t_user SET email = ?, firstname = ?, lastname = ?, date_of_birth = ? , gender = ?, contact = ?," + 
+    					"address = ?, country = ?, postal_code = ?";*/
+    
+    			String sqlStatement = "UPDATE t_user(email, firstname, " + 
+                		"lastname, dateOfBirth, gender, contact, " +
+                		"address, country, postal_code) SET VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) WHERE t.user_id = ? " ;
+    			getConnection();
+    			
+    			PreparedStatement prepStmt = con.prepareStatement(sqlStatement);
+                prepStmt.setInt(1, user_id);
+                ResultSet rs = prepStmt.executeQuery();
+                if (rs.next()) {
+                	
+                	prepStmt.setString(2, user.getEmail());
+                	prepStmt.setString(3, user.getFirstname());
+                	prepStmt.setString(4, user.getLastname());
+                	prepStmt.setString(5, String.valueOf(user.getDateOfBirth()));
+                	prepStmt.setString(6, user.getGender());
+                	prepStmt.setInt(7, user.getContact());
+                	prepStmt.setString(8, user.getAddress());
+                	prepStmt.setString(9, user.getCountry());
+                	prepStmt.setInt(10, user.getPostalCode());
+    				prepStmt.executeUpdate();
+                }
+                
+    			String getIdStatement = "SELECT * FROM t_user WHERE t.user_id = ?";
+    			prepStmt = con.prepareStatement(getIdStatement);
+    			prepStmt.setInt(1, user_id);
+    			ResultSet rs2 = prepStmt.executeQuery();
+    			
+    			if (rs2.next()) {
+    				user_id = rs2.getInt("user_id");
+    			}
+    			prepStmt.close();
+    			} catch (SQLException ex) {
+    				releaseConnection();
+    				throw new SignUpException(ex.getMessage());
+    				}
+    			releaseConnection();
+    			return user;
+    		}
+    
 }
