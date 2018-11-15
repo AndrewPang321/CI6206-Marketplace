@@ -64,7 +64,7 @@ public class User {
         this.userAccount = userAccount;
         this.userAccount.setUser(this);
     }
-    
+    //for seller
     public User(String email, String firstname, String lastname, String gender, int contact, String address, ArrayList<Item> item) {
         this.email = email;
         this.firstname = firstname;
@@ -74,6 +74,21 @@ public class User {
         this.address = address;
         this.item = item;
         
+    }
+    //for current user
+    public User(String email, String firstname, String lastname, Date dateOfBirth, String gender, int contact, String address, int postalCode, String country, UserAccount userAccount, ArrayList<Item> item) {
+        this.email = email;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
+        this.contact = contact;
+        this.address = address;
+        this.postalCode = postalCode;
+        this.country = country;
+        this.userAccount = userAccount;
+        this.userAccount.setUser(this);
+        this.item = item;
     }
 
     /** Getters **/
