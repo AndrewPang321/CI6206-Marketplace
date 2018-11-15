@@ -60,7 +60,8 @@
                   class: 'success'
                 });
                 setTimeout(function () {
-                  window.location.replace("index.html")
+                  // window.location.replace("index.html")
+                  window.location.replace("userHome.jsp")
                 }, 1500);
                 break;
               case 400:

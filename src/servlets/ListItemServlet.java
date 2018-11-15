@@ -3,6 +3,7 @@ package servlets;
 import database.DBAO;
 import database.User;
 import database.UserAccount;
+import database.Item;
 
 import java.io.*;
 import java.io.IOException;
@@ -60,9 +61,12 @@ public class ListItemServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession httpSession = request.getSession(true);
+		int item_id = -1;
 		
 		String item_title = request.getParameter("item_title");
 		// Blob photo = request.getBlob("photo");
+		String photo = request.getParameter("photo");
+		String image = request.getParameter("image");
 		String photo_name = request.getParameter("photo_name");
         String item_category = request.getParameter("item_category");
         String item_description = request.getParameter("item_description");
@@ -81,75 +85,51 @@ public class ListItemServlet extends HttpServlet {
             return;
         }        
         
-        try {
-            DBAO DB = new DBAO();
-
-            int item_id = DB.addItem(user_id, item_title, item_category, item_description, item_condition, item_location, item_delivery_mode, selling_price, shipping_fee);
-            // int item_photo_id = DB.addItemPhoto(item_id, photo_name, photo);
-            
-            InputStream inputStream = null; // input stream of the upload file
-            
-            // obtains the upload file part in this multipart request
-            Part filePart = request.getPart("photo");
-            if (filePart != null) {
-                // prints out some information for debugging
-                System.out.println(filePart.getName());
-                System.out.println(filePart.getSize());
-                System.out.println(filePart.getContentType());
-                 
-                // obtains input stream of the upload file
-                inputStream = filePart.getInputStream();
-            }
-             
-            Connection conn = null; // connection to the database
-            String message = null;  // message will be sent back to client
-            
-            try {
-                // connects to the database
-                DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-                conn = DriverManager.getConnection(url, username, password);
-     
-                // constructs SQL statement
-                String sql = "INSERT INTO t_item_photo(item_id, photo_name, photo) VALUES (?, ?, ?)";
-                PreparedStatement statement = conn.prepareStatement(sql);
-                statement.setInt(1, item_id);
-                statement.setString(2, photo_name);
-                 
-                if (inputStream != null) {
-                    // fetches input stream of the upload file for the blob column
-                    statement.setBlob(3, inputStream);
-                }
-     
-                // sends the statement to the database server
-                int row = statement.executeUpdate();
-                if (row > 0) {
-                    message = "File uploaded and saved into database";
-                }
-            } catch (SQLException ex) {
-                message = "ERROR: " + ex.getMessage();
-                ex.printStackTrace();
-            } finally {
-                if (conn != null) {
-                    // closes the database connection
-                    try {
-                        conn.close();
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-                // sets the message in request scope
-                request.setAttribute("Message", message);
-                 
-                // forwards to the message page
-                getServletContext().getRequestDispatcher("/Message.jsp").forward(request, response);
-            }
         
+        try {
+        	// add new listing item into database
+            DBAO DB = new DBAO();
+            DB.addItem(user_id, item_title, item_category, item_description, item_condition, item_location, item_delivery_mode, selling_price, shipping_fee);
             // Sign up success, 201: Created
             response.setStatus(201);
         } catch (Exception ex) {
             System.out.println("servlet: "+ex);
             throw new ServletException(ex);
         }
+        
+        
+        // get listing item_id from database
+        try {
+            DBAO dbao = new DBAO();
+            item_id = dbao.getItemId(user_id);        
+            // Get item_id success, 200: Success
+            // response.setStatus(200);
+        } catch (Exception ex) {
+            System.out.println("servlet: "+ex);
+            throw new ServletException(ex);
+        }
+        
+        // System.out.print("Item ID returned is: " + item_id);
+        // System.out.print(" To input is: " + photo);
+        // System.out.print(" To input is: " + image);
+        // System.out.print(" To input is: " + photo_name);
+        // photo_name = "test.jpg";
+        // System.out.print(" Manually input is: " + photo_name);
+        // add new listing item photo into database
+        try {
+            DBAO dbao_dbao = new DBAO();
+            dbao_dbao.addItemPhoto(item_id, photo_name);        
+            // Sign up success, 201: Created
+            // response.setStatus(201);
+            // request.getRequestDispatcher("userHome.jsp").forward();
+            System.out.print("Item ID returned is: " + item_id);
+            // response.sendRedirect("userHome.jsp"); 
+        } catch (Exception ex) {
+            System.out.println("servlet: "+ex);
+            throw new ServletException(ex);
+        }
+        
+        return;
     }
 
 }

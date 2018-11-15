@@ -7,6 +7,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.servlet.http.Part;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
 import exception.*;
 
 public class DBAO {
@@ -204,10 +212,9 @@ public class DBAO {
         }
     }
     
-    public int addItem(int user_id, String item_title, String item_category, String item_description, String item_condition,
+    public void addItem(int user_id, String item_title, String item_category, String item_description, String item_condition,
     		String item_location, String item_delivery_mode, float selling_price, float shipping_fee) throws GeneralException {
         boolean acquireConnection = false;
-        int item_id = -1;
         
         try {
             String sqlStatement = "INSERT INTO t_item(user_id, item_title, item_category, " + 
@@ -229,8 +236,46 @@ public class DBAO {
             prepStmt.setFloat(8, selling_price);
             prepStmt.setFloat(9, shipping_fee);
             prepStmt.executeUpdate();
-
             prepStmt.close();
+            
+        } catch (SQLException ex) {
+            releaseConnection();
+            throw new GeneralException(ex.getMessage());
+        }
+
+        if (acquireConnection) {
+            releaseConnection();
+        }
+    }
+    
+    public int getItemId(int user_id) throws GeneralException {
+        boolean acquireConnection = false;
+        int item_id = -1;
+
+        try {
+            String sqlStatement = "SELECT MAX(item_id) AS item_id FROM t_item WHERE user_id = ?";
+            if (conFree) {
+                getConnection();
+                acquireConnection = true;
+            }
+
+            PreparedStatement prepStmt = con.prepareStatement(sqlStatement);
+            prepStmt.setInt(1, user_id);
+            ResultSet rs = prepStmt.executeQuery();
+
+            /*if (rs.next()) {
+            	item = new Item(rs.getInt("item_id"), rs.getInt("user_id"),rs.getString("item_title"),
+                        rs.getString("item_category"), rs.getString("item_description"), rs.getString("item_condition"), 
+                        rs.getString("item_location"), rs.getString("item_delivery_mode"), 
+                        rs.getInt("item_like_count"), rs.getString("item_status"), rs.getFloat("selling_price"), 
+                        rs.getFloat("shipping_fee"), rs.getString("active"), rs.getString("remarks"));
+            }*/
+            
+            if (rs.next()) {
+            	item_id = rs.getInt("item_id");
+            }
+            prepStmt.close();
+            
         } catch (SQLException ex) {
             releaseConnection();
             throw new GeneralException(ex.getMessage());
@@ -240,6 +285,36 @@ public class DBAO {
             releaseConnection();
         }
         return item_id;
+    }
+    
+    public void addItemPhoto(int item_id, String photo_name) throws GeneralException {
+        boolean acquireConnection = false;
+        
+        try {
+            // String sqlStatement = "INSERT INTO t_item_photo(item_id, photo_name, photo) VALUES (?, ?, ?)";
+        	String sqlStatement = "INSERT INTO t_item_photo(item_id, photo_name) VALUES (?, ?)";
+            if (conFree) {
+                getConnection();
+                acquireConnection = true;
+            }
+
+            // File imgfile = new File(photo);
+            // FileInputStream fin = new FileInputStream(imgfile);
+            PreparedStatement prepStmt = con.prepareStatement(sqlStatement);
+        	prepStmt.setInt(1, item_id);
+            prepStmt.setString(2, photo_name);
+            // prepStmt.setBlob(3, photo);            
+            prepStmt.executeUpdate();
+            prepStmt.close();
+            
+        } catch (SQLException ex) {
+            releaseConnection();
+            throw new GeneralException(ex.getMessage());
+        }
+
+        if (acquireConnection) {
+            releaseConnection();
+        }
     }
 
     public ArrayList<Item> getAllItem() throws GeneralException {
@@ -309,7 +384,7 @@ public class DBAO {
         ArrayList<Item> allItems = new ArrayList<Item>();
 
         try {
-            String sqlStatement = "SELECT * FROM t_item where t.user_id = ?";
+            String sqlStatement = "SELECT * FROM t_item where user_id = ?";
             getConnection();
             
 
