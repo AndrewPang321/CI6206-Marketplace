@@ -27,12 +27,14 @@
   <!-- JavaScript files -->
   <script src="js/util.js"></script>
   <script src="js/login.js"></script>
+  <script src="js/auth.js"></script>
 
 </head>
 
 <body>
   <script>
     $(document).ready(function () {
+      loginLogoutToggle();
 
       // LoginForm submission
       $("#loginForm").submit(function (event) {
@@ -170,9 +172,10 @@
             <a class="nav-link" href="#">Contact</a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="login.jsp">Login
+            <a id="loginNav" class="nav-link" href="login.jsp">Login
               <span class="sr-only">(current)</span>
             </a>
+            <button type="button" id="logoutNav" class="btn btn-dark" onclick="logout()">Logout</button>
           </li>
         </ul>
       </div>
