@@ -2,17 +2,20 @@ package servlets;
 
 
 import database.DBAO;
+import database.Item;
 import database.User;
 
 import java.io.IOException;
-
+import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
 
 /**
  * Servlet implementation class SellerProfileServlet
@@ -32,43 +35,34 @@ public class SellerProfileServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
+		// Auto-generated method stub
+		int sellerId = Integer.parseInt(request.getParameter("sellerId"));
+        ArrayList<Item> allSellerItems = new ArrayList<>();
+        User seller = new User();
+
+        try {
+            DBAO DB = new DBAO();
+            seller = DB.getSeller(sellerId);
+            allSellerItems.addAll(DB.getAllItems(sellerId));
+            seller.setItem(allSellerItems);
+            response.setStatus(200);
+        } catch (Exception ex) {
+            response.setStatus(400);
+            throw new ServletException(ex);
+        }
+        String SellerItemsJson = new Gson().toJson(seller);
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+        out.print(SellerItemsJson);
+        out.flush();
+    }
+
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	@SuppressWarnings("unlikely-arg-type")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int sellerId = Integer.parseInt(request.getParameter("sellerId"));
 		
-		boolean result = false;
-        try {
-            if (!"".equals(sellerId)) {
-                DBAO accountDB = new DBAO();
-                User seller = accountDB.getSeller(sellerId);
-                if (seller != null) {
-                        response.setStatus(200);
-                        ((ServletRequest) response).setAttribute("sellerProfile", seller);
-                        result = true;
-                        return;
-                }
-            }
-        } catch (Exception ex) {
-            throw new ServletException(ex);
-        }
-
-        // Authentication fail, 400: Bad Request
-        response.setStatus(400);
-        if (result){
-        	request.getRequestDispatcher("/sellerProfile").forward(request,response);
-        	return;
-        	}
-        	else {
-        	response.sendRedirect("login.jsp");
-        	return;
-        	}
 
     }
 
