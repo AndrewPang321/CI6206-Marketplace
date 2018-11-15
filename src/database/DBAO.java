@@ -439,7 +439,7 @@ public class DBAO {
         releaseConnection();
         return user;
     }
-    public User getCurrentUserProfile(int user_id) throws Exception {
+   public User getCurrentUserProfile(int user_id) throws Exception {
         User user = null;
         try {
             String sqlStatement = "SELECT * FROM t_user WHERE t_user.id = ?";
@@ -450,12 +450,6 @@ public class DBAO {
             ResultSet rs = prepStmt.executeQuery();
 
             if (rs.next()) {
-
-                if (rs.next()) {
-                    int current_user_id = rs.getInt("user_id");
-                    ArrayList<Item> item = getAllItems(current_user_id);
-                    UserAccount userAccount = getUserAccount(current_user_id);
-
                     // Convert date string to date object
                     DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
                     Date dateOfBirthWithTypeDate = null;
@@ -468,9 +462,8 @@ public class DBAO {
                     user = new User(rs.getString("email"), rs.getString("firstname"), rs.getString("lastname")
                             , dateOfBirthWithTypeDate, rs.getString("gender"), rs.getInt("contact")
                             , rs.getString("address"), rs.getInt("postal_code"), rs.getString("country")
-                            , userAccount, item);
-                }    
-            }
+                            );
+                }   
             prepStmt.close();
         } catch (SQLException ex) {
             releaseConnection();
