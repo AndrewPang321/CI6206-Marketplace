@@ -155,7 +155,8 @@
 			<div class="card-body">
 				<div class="tab-content">
 					<div class="tab-pane fade show active" id="listItem">
-						<form id="listItemForm" name="listItemForm" action="userHome.jsp">
+						<!-- <form id="listItemForm" name="listItemForm" action="userHome.jsp">  -->
+						<form method="post" action="listitem" enctype="multipart/form-data">
 							<div class="form-group row">
 								<label for="item_title" class="col-sm-2 col-form-label">Title</label>
 								<div class="col-sm-10">
