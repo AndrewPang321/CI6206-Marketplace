@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import = "database.User"%>
 <!DOCTYPE html>
 <html>
 
@@ -28,57 +27,41 @@
   <!-- JavaScript files -->
   <script src="js/util.js"></script>
   <script src="js/login.js"></script>
+  <script src="js/auth.js"></script>
 
 </head>
 
 <script>
     $(document).ready(function () {
-      $("#UserProfile").submit(function (event) {
-        var form = $(this);
+        loginLogoutToggle();
 
-        $.ajax({
-          url: "userProfile",
-          type: "GET",
-          data: form.serialize(),
-          beforeSend: function () {
-            $(".loader").css("display", "block");
-          },
-          success: function () {
-            console.log("success");
-          },
-          error: function () {
-            console.log("failure");
-          },
-          complete: function (res) {
-            console.log(res.status);
-            switch (res.status) {
-              case 200:
-                showAlert({
-                  message: 'Making Profile Changes. Redirect in 1 second',
-                  class: 'success'
-                });
-                setTimeout(function () {
-                  // window.location.replace("index.html")
-                  window.location.replace("EditUserProfile.jsp")
-                }, 1500);
-                break;
-              case 400:
-                showAlert({
-                  message: 'Incorrect Email/Password',
-                  class: 'danger'
-                });
-                break;
-              default:
-                showAlert({
-                  message: 'Some problems occur. Please try again',
-                  class: 'danger'
-                });
+        var userInfo;
+        var userLabel = ["Email", "Firstname", "Lastname", "Date of birth", "Gender", "Username", "Contact", "Address",
+        "Postal code", "Country"];
+        var str = "";
+        $.get("userProfile", function(output) {
+            if (output != "-1") {
+                userInfo = output;
+                var dateFragment = userInfo.dateOfBirth.split(" ");
+                var dateOfBirth = dateFragment[0] + " " + dateFragment[1] + " " + dateFragment[2];
+                var userPlaceholder = [userInfo.email, userInfo.firstname, userInfo.lastname, dateOfBirth, userInfo.gender,
+                    userInfo.username, userInfo.contact, userInfo.address, userInfo.postalCode, userInfo.country];
+
+                for (var i = 0; i < userLabel.length; i++) {
+                    str += '<li class="list-group-item w-25">';
+                    str += userLabel[i];
+                    str += '</li>';
+                    str += '<li class="list-group-item w-75">';
+                    str += userPlaceholder[i];
+                    str += '</li>';
+                }
+            } else {
+                str += "Please sign in first!";
             }
-            $(".loader").css("display", "none");
-          }
+            $("#profileContainer").html(str);
         });
-        return false;
-      });
+
+    });
 </script>
 <body>
 
@@ -104,106 +87,20 @@
           <li class="nav-item">
             <a class="nav-link" href="#">Contact</a>
           </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="userProfile.jsp">Profile
-              <span class="sr-only">(current)</span>
-            </a>
+          <li class="nav-item">
+            <a id="loginNav" class="nav-link" href="login.jsp">Login</a>
+            <button type="button" id="logoutNav" class="btn btn-dark" onclick="logout()">Logout</button>
           </li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- Page Content -->
-  <div class="loginContainer">
-    <div class="loader"></div>
-    <div class="card text-center mx-auto">
-      <div class="card-header">
-        <ul class="nav nav-tabs card-header-tabs">
-          <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab"> Profile</a>
-          </li>
-        </ul>
-      </div>
-      <div class="card-body">
-        <div class="tab-content">
-          <div class="tab-pane fade" id="UserProfile">
-            <form id="UserProfile">
-              <div class="form-group row">
-                <label for="signupEmail" class="col-sm-2 col-form-label">Email</label>
-                <div class="col-sm-10">
-                  <input type="email" class="form-control" id="signupEmail" name="signupEmail" value = "${email}" disabled>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="signupPassword" class="col-sm-2 col-form-label">Password</label>
-                <div class="col-sm-10">
-                  <input type=hidden class="form-control" id="signupPassword" name="signupPassword" placeholder="Private" disabled>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="signupConfirmPassword" class="col-sm-2 col-form-label">Confirm Password</label>
-                <div class="col-sm-10">
-                  <input type="hidden" class="form-control" id="signupConfirmPassword" name="signupConfirmPassword" placeholder="Private"
-                         disabled>
-                </div>
-              </div>
-              <hr>
-              <div class="form-group row">
-                <label for="signupFirstName" class="col-sm-2 col-form-label">Firstname</label>
-                <div class="col-sm-4">
-                  <input type="text" class="form-control" id="signupFirstName" name="signupFirstName" value = "${firstname}" disabled>
-                </div>
-                <label for="signupLastName" class="col-sm-2 col-form-label">Lastname</label>
-                <div class="col-sm-4">
-                  <input type="text" class="form-control" id="signupLastName" name="signupLastName" value = "${lastname}" disabled>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="signupDateOfBirth" class="col-sm-2 col-form-label">Date of birth</label>
-                <div class="col-sm-4">
-                  <input type="date" class="form-control" id="signupDateOfBirth" name="signupDateOfBirth" value = "${dateOfBirth}" disabled>
-                </div>
-                <label for="signupGender" class="col-sm-2 col-form-label">Gender</label>
-                <div class="col-sm-4">
-                  <select class="form-control" id="signupGender" name="signupGender" data-gender="${gender}" disabled>
-                    <option value="M">M</option>
-                    <option value="F">F</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="signupUsername" class="col-sm-2 col-form-label">Username</label>
-                <div class="col-sm-4">
-                  <input type="hidden" class="name" id="signupUsername" name="signupUsername" value = "<%= User.currentUser.getUserId()%>"disabled>
-                </div>
-                <label for="signupContact" class="col-sm-2 col-form-label">Contact</label>
-                <div class="col-sm-4">
-                  <input type="number" class="form-control" id="signupContact" name="signupContact" value = "${contact}" disabled>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="signupAddress" class="col-sm-2 col-form-label">Address</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" id="signupAddress" name="signupAddress" value = "${address}" disabled>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="signupPostalCode" class="col-sm-2 col-form-label">Postal code</label>
-                <div class="col-sm-4">
-                  <input type="number" class="form-control" id="signupPostalCode" name="signupPostalCode" value = "${postalCode}" disabled>
-                </div>
-                <label for="signupCountry" class="col-sm-2 col-form-label">Country</label>
-                <div class="col-sm-4">
-                  <select class="form-control input-medium bfh-countries" id="signupCountry" name="signupCountry" data-country="${country}" disabled></select>
-                </div>
-              </div>
-              <button type="submit" class="btn btn-success">Edit</button>
-            </form>
-          </div>
-        </div>
-      </div>
-      <div id="alertBox"></div>
+  <div class="card mx-auto mt-4 mb-4">
+    <h5 class="card-header">Profile</h5>
+    <div class="card-body">
+      <ul id="profileContainer" class="list-group d-flex flex-row flex-wrap">
+      </ul>
     </div>
   </div>
 

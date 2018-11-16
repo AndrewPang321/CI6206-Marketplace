@@ -11,6 +11,7 @@ public class User {
     private String email;
     private String firstname;
     private String lastname;
+    private String username;
     private Date dateOfBirth;
     private String gender;
     private int contact;
@@ -64,6 +65,7 @@ public class User {
         this.userAccount = userAccount;
         this.userAccount.setUser(this);
     }
+
     //for seller
     public User(String email, String firstname, String lastname, String gender, int contact, String address, ArrayList<Item> item) {
         this.email = email;
@@ -75,11 +77,13 @@ public class User {
         this.item = item;
         
     }
+
     //for current user
-    public User(String email, String firstname, String lastname, Date dateOfBirth, String gender, int contact, String address, int postalCode, String country) {
+    public User(String email, String firstname, String lastname, Date dateOfBirth, String gender, int contact, String address, int postalCode, String country, String username) {
         this.email = email;
         this.firstname = firstname;
         this.lastname = lastname;
+        this.username = username;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
         this.contact = contact;
