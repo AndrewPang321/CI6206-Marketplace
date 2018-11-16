@@ -9,6 +9,7 @@ public class ItemPhoto {
     // active: {yes, no}
     private String active = "yes";
     private String remarks;
+    private byte[] photo_data;
 
     private Item item;
 
@@ -52,6 +53,8 @@ public class ItemPhoto {
         return this.item;
     }
 
+    public byte[] getPhotoData() { return photo_data; }
+
     /** Setters **/
     public void setItem_id(int item_id) { 
     	this.item_id = item_id; 
@@ -76,5 +79,7 @@ public class ItemPhoto {
     public void setItem(Item item) {
         this.item = item;
     }
+
+    public void setPhotoData(byte[] photo_data) { this.photo_data = photo_data; }
 
 }

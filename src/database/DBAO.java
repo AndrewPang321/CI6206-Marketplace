@@ -311,7 +311,7 @@ public class DBAO {
                         rs.getString("item_location"), rs.getString("item_delivery_mode"), 
                         rs.getInt("item_like_count"), rs.getString("item_status"), rs.getFloat("selling_price"), 
                         rs.getFloat("shipping_fee"), rs.getString("active"), rs.getString("remarks"));
-            	item.setItem_id(item_id);
+            	item.setItemId(item_id);
             }
             
             prepStmt.close();
@@ -375,7 +375,7 @@ public class DBAO {
                         rs.getInt("item_like_count"), rs.getString("item_status"),
                         rs.getFloat("selling_price"), rs.getFloat("shipping_fee"),
                         rs.getString("active"), rs.getString("remarks"));
-//                item.setItemPhoto(getItemPhoto(item.getItemId()));
+                item.setItemPhoto(getItemPhoto(item.getItemId()));
                 allItems.add(item);
             }
 
@@ -407,6 +407,7 @@ public class DBAO {
                 itemPhoto = new ItemPhoto(rs.getInt("item_id"), rs.getString("photo_name"),
                         rs.getString("photo"), rs.getString("active"),
                         rs.getString("remarks"));
+                itemPhoto.setPhotoData(rs.getBytes("photo"));
             }
 
             prepStmt.close();
@@ -440,7 +441,7 @@ public class DBAO {
                         rs.getInt("item_like_count"), rs.getString("item_status"),
                         rs.getFloat("selling_price"), rs.getFloat("shipping_fee"),
                         rs.getString("active"), rs.getString("remarks"));
-//                item.setItemPhoto(getItemPhoto(item.getItemId()));
+                item.setItemPhoto(getItemPhoto(item.getItemId()));
                 allItems.add(item);
             }
 
@@ -452,10 +453,11 @@ public class DBAO {
         releaseConnection();
         return allItems;
     }
+
     public User getSeller(int seller_id) throws Exception {
         User user = null;
         try {
-            String sqlStatement = "SELECT * FROM t_user WHERE t_user.id = ?";
+            String sqlStatement = "SELECT * FROM t_user WHERE user_id = ?";
             getConnection();
 
             PreparedStatement prepStmt = con.prepareStatement(sqlStatement);
@@ -591,6 +593,45 @@ public class DBAO {
             releaseConnection();
         }
         return username;
+    }
+
+    public String getItemTitle(int item_id) throws GeneralException {
+        boolean acquireConnection = false;
+        String item_title = null;
+
+        try {
+            String sqlStatement = "SELECT MAX(item_title) AS item_title FROM t_item WHERE item_id = ?";
+            if (conFree) {
+                getConnection();
+                acquireConnection = true;
+            }
+
+            PreparedStatement prepStmt = con.prepareStatement(sqlStatement);
+            prepStmt.setInt(1, item_id);
+            ResultSet rs = prepStmt.executeQuery();
+
+            /*if (rs.next()) {
+            	item = new Item(rs.getInt("item_id"), rs.getInt("user_id"),rs.getString("item_title"),
+                        rs.getString("item_category"), rs.getString("item_description"), rs.getString("item_condition"),
+                        rs.getString("item_location"), rs.getString("item_delivery_mode"),
+                        rs.getInt("item_like_count"), rs.getString("item_status"), rs.getFloat("selling_price"),
+                        rs.getFloat("shipping_fee"), rs.getString("active"), rs.getString("remarks"));
+            }*/
+
+            if (rs.next()) {
+                item_title = rs.getString("item_title");
+            }
+            prepStmt.close();
+
+        } catch (SQLException ex) {
+            releaseConnection();
+            throw new GeneralException(ex.getMessage());
+        }
+
+        if (acquireConnection) {
+            releaseConnection();
+        }
+        return item_title;
     }
 
 }
