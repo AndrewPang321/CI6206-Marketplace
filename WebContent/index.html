@@ -51,7 +51,7 @@
                   }
                   str += '<div class="card-body">';
                   str += '<h4 class="card-title">';
-                  str += '<a id="itemTitle" data-toggle="modal" href="#itemModal">' + item.item_title + '</a>';
+                  str += '<a id="itemTitle" href="buy.jsp?item_id=' + item.item_id + '">' + item.item_title + '</a>';
                   str += '<div id="itemId" style="display:none">' + item.item_id + '</div>';
                   str += '<div id="itemUserId" style="display:none">' + item.user_id + '</div>';
                   str += '</h4>';
@@ -67,14 +67,14 @@
               $("#collection").html(str);
           });
 
-          $("#itemModal").on("show.bs.modal", function(event) {
-              var itemId = $(event.relatedTarget).parent().find("#itemId").text();
-              var itemUserId = $(event.relatedTarget).parent().find("#itemUserId").text();
-              var itemTitle = $(event.relatedTarget).parent().find("#itemTitle").text();
-              $("#itemModalTitle").text(itemTitle);
-              console.log("Item ID: " + itemId);
-              console.log("User ID in item: " + itemUserId);
-          });
+          // $("#itemModal").on("show.bs.modal", function(event) {
+          //     var itemId = $(event.relatedTarget).parent().find("#itemId").text();
+          //     var itemUserId = $(event.relatedTarget).parent().find("#itemUserId").text();
+          //     var itemTitle = $(event.relatedTarget).parent().find("#itemTitle").text();
+          //     $("#itemModalTitle").text(itemTitle);
+          //     console.log("Item ID: " + itemId);
+          //     console.log("User ID in item: " + itemUserId);
+          // });
       });
 
   </script>
@@ -190,25 +190,25 @@
     <!-- /.container -->
 
     <!-- Modal -->
-    <div class="modal fade" id="itemModal" tabindex="-1" role="dialog" aria-labelledby="itemModalTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="itemModalTitle"></h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            ...
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save Changes</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!--<div class="modal fade" id="itemModal" tabindex="-1" role="dialog" aria-labelledby="itemModalTitle" aria-hidden="true">-->
+      <!--<div class="modal-dialog modal-dialog-centered" role="document">-->
+        <!--<div class="modal-content">-->
+          <!--<div class="modal-header">-->
+            <!--<h5 class="modal-title" id="itemModalTitle"></h5>-->
+            <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+              <!--<span aria-hidden="true">&times;</span>-->
+            <!--</button>-->
+          <!--</div>-->
+          <!--<div class="modal-body">-->
+            <!--...-->
+          <!--</div>-->
+          <!--<div class="modal-footer">-->
+            <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+            <!--<button type="button" class="btn btn-primary">Save Changes</button>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
 
     <!-- Footer -->
     <footer class="py-5 bg-dark">

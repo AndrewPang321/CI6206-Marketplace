@@ -38,14 +38,25 @@
 <body>
 	
     
-<
+<script>
+    $(document).ready(function() {
+        var url = window.location.href;
+        url = url.split("=");
+        var item_id = url[1];
+
+        $.get("buyitem", { item_id: item_id }, function(data) {
+			var item_title = data;
+			$("#itemTitle").text(item_title);
+		});
+	});
+</script>
     	
     
 
 	<!-- Navigation -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="userHome.jsp">Marketplace</a>
+			<a class="navbar-brand" href="index.html">Marketplace</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarResponsive" aria-controls="navbarResponsive"
 				aria-expanded="false" aria-label="Toggle navigation">
@@ -69,7 +80,7 @@
 	</nav>
 
 	<!-- Page Content -->
-	<div class="listItemContainer">
+	<div class="listItemContainer mt-4 mb-4">
 		<div class="loader"></div>
 		<div class="card text-center mx-auto">
 			<div class="card-header">
@@ -85,10 +96,18 @@
 						
 						<form method="post" action="buyitem">
 							<div class="form-group row">
-								<label for="item_id" class="col-sm-2 col-form-label">Enter item ID</label>
+								<%--<label for="item_id" class="col-sm-2 col-form-label">Enter item ID</label>--%>
+								<label for="item_id" class="col-sm-2 col-form-label"></label>
 								<div class="col-sm-10">
 									<input type="hidden" class="form-control" id="item_id"
 										name="item_id"  value=<%= request.getParameter("item_id") %> required>
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label for="item_id" class="col-sm-2 col-form-label">Item</label>
+								<div class="col-sm-10">
+									<span id="itemTitle"></span>
 								</div>
 							</div>
 

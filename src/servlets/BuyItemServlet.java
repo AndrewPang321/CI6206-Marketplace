@@ -44,8 +44,24 @@ public class BuyItemServlet extends HttpServlet {
     private String dbURL = "jdbc:mysql://161.117.121.110:3306/marketplace";
     private String dbUser = "root";
     private String dbPass = "Password123";
-    
 
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession httpSession = request.getSession();
+        int item_id = Integer.parseInt(request.getParameter("item_id"));
+        String item_title;
+        try {
+            DBAO DB = new DBAO();
+            item_title = DB.getItemTitle(item_id);
+        } catch (Exception ex) {
+            response.setStatus(400);
+            throw new ServletException(ex);
+        }
+        response.setContentType("text/plain");
+        PrintWriter out = response.getWriter();
+        out.print(item_title);
+        out.flush();
+    }
  
 
     @Override
@@ -75,14 +91,14 @@ public class BuyItemServlet extends HttpServlet {
         
         //for testing int user_id = 1;
         //int user_id = 1;
-        int user_id = User.currentUser.getUserId();
-        System.out.print("User ID is: " + user_id);
-        if ("".equals(user_id)) {
-            // List item fail, 400: Bad Request
+        int user_id;
+        if (User.currentUser != null) {
+            user_id = User.currentUser.getUserId();
+            System.out.print("User ID is: " + user_id);
+        } else {
             response.setStatus(400);
             return;
         }
-        
 
         
         
@@ -129,7 +145,7 @@ public class BuyItemServlet extends HttpServlet {
        
             conn.commit();
             // Upload successfully!.
-            response.sendRedirect("/userHome.jsp");
+            response.sendRedirect("/index.html");
             //actionResponse.setRenderParameter("jspPage","/userHome.jsp");
         } catch (Exception e) {
             e.printStackTrace();
