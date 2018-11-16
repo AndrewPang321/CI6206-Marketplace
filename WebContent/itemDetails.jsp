@@ -1,99 +1,84 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 
 <head>
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="">
-<meta name="author" content="">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-<title>Marketplace</title>
+  <title>Marketplace</title>
 
-<!-- Bootstrap core CSS -->
-<link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap core CSS -->
+  <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-<!-- Custom styles for this template -->
-<link href="css/shop-homepage.css" rel="stylesheet">
-<link href="css/login.css" rel="stylesheet">
-<link href="css/util.css" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="css/shop-homepage.css" rel="stylesheet">
+  <link href="css/login.css" rel="stylesheet">
+  <link href="css/util.css" rel="stylesheet">
 
-<!-- Bootstrap core JavaScript -->
-<script src="lib/jquery/jquery.min.js"></script>
-<script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-formhelpers/2.3.0/js/bootstrap-formhelpers.min.js"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script src="lib/jquery/jquery.min.js"></script>
+  <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-formhelpers/2.3.0/js/bootstrap-formhelpers.min.js"></script>
 
-<!-- JavaScript files -->
-<script src="js/util.js"></script>
-<script src="js/login.js"></script>
-<script src="js/auth.js"></script>
+  <!-- JavaScript files -->
+  <script src="js/util.js"></script>
+  <script src="js/login.js"></script>
+  <script src="js/auth.js"></script>
 
 </head>
 
 <body>
-	<script>  
-    $(document).ready(function () {
-    	loginLogoutToggle();
-      // ListItemForm submission
-      $("#listItemForm").submit(function (event) {
-        var form = $(this);
-        var item_title = $("#item_title").val();
-        var photo = $("#photo").val();
-        var image = $("#image").val();
-        var photo_name = $("#photo_name").val();
-        var item_category = $("#item_category").val();
-        var item_description = $("#item_description").val();
-        var item_condition = $("#item_condition").val();
-        var selling_price = $("#selling_price").val();
-        var item_location = $("#item_location").val();
-        var item_delivery_mode = $("#item_delivery_mode").val();
-        var shipping_fee = $("#shipping_fee").val();
+	<script>
+	$(document).ready(function () {
+        loginLogoutToggle();
+        
+        var itemInfo;
+        var itemLabel = ["item_id", "user_id", "item_title", "item_category", "item_description", "item_condition", 
+        	"item_location", "item_delivery_mode", "item_like_count", "item_status", "selling_price", "shipping_fee",
+        	"active", "remarks"];
+        var str = "";
+        $.get("itemdetails", function(output) {
+            if (output != "-1") {
+            	itemInfo = output;
+                /* var item_id = itemInfo.item_id;
+                var user_id = itemInfo.user_id;
+                var item_title = itemInfo.item_title;
+                var item_category = itemInfo.item_category;
+                var item_description = itemInfo.item_description;
+                var item_condition = itemInfo.item_condition;
+                var item_location = itemInfo.item_location;
+                var item_delivery_mode = itemInfo.item_delivery_mode;
+                var item_like_count = itemInfo.item_like_count;
+                var item_status = itemInfo.item_status;
+                var selling_price = itemInfo.selling_price;
+                var shipping_fee = itemInfo.shipping_fee; */
                 
-        $.ajax({
-          url: "itemdetails",
-          type: "GET",
-          data: form.serialize(),
-          beforeSend: function () {
-            $(".loader").css("display", "block");
-          },
-          success: function () {
-            console.log("success");
-            window.location.replace("userHome.jsp");
-          },
-          error: function () {
-            console.log("failure");
-          },
-          complete: function (res) {
-            console.log(res.status);
-	            switch (res.status) {
-	            case 201:
-	                  showAlert({
-	                    message: 'Sign up success. Redirect in 1 second',
-	                    class: 'success'
-	                  });
-	                  setTimeout(function () {
-	                    window.location.replace("index.html")
-	                  }, 1500);
-	                  break;
-	            default:
-	              showAlert({
-	                message: 'Some problems occur. Please try again',
-	                class: 'danger'
-	              });
-	          }
-            $(".loader").css("display", "none");
-          }
-        });
-        });
-      });
-    </script>
+                var itemPlaceholder = [itemInfo.item_id, itemInfo.user_id, itemInfo.item_title, itemInfo.item_category, itemInfo.item_description,
+                	itemInfo.item_condition, itemInfo.item_location, itemInfo.item_delivery_mode, itemInfo.item_like_count, itemInfo.item_status,
+                	itemInfo.selling_price, itemInfo.shipping_fee, itemInfo.active, itemInfo.remarks];
 
-	<!-- Navigation -->
+                for (var i = 0; i < itemLabel.length; i++) {
+                    str += '<li class="list-group-item w-25">';
+                    str += itemLabel[i];
+                    str += '</li>';
+                    str += '<li class="list-group-item w-75">';
+                    str += itemPlaceholder[i];
+                    str += '</li>';
+                }
+                
+            } else {
+                str += "Please sign in first!";
+            }
+            $("#itemContainer").html(str);
+        });
+
+    });
+    </script>
+<!-- Navigation -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
 		<div class="container">
 			<a class="navbar-brand" href="userHome.jsp">Marketplace</a>
@@ -111,9 +96,10 @@
 					</li>
 					<li class="nav-item"><a class="nav-link" href="#">Contact</a>
 					</li>
-					<li class="nav-item">
-						<a id="loginNav" class="nav-link" href="login.jsp">Login</a>
-						<button type="button" id="logoutNav" class="btn btn-dark" onclick="logout()">Logout</button>
+					<li class="nav-item active">
+						<a id="loginNav" class="nav-link" href="login.jsp">Login<span class="sr-only">(current)</span></a>
+						<button type="button" id="logoutNav" class="btn btn-dark" onclick="logout()">Logout
+							<span class="sr-only">(current)</span></button>
 					</li>
 				</ul>
 			</div>
@@ -121,19 +107,46 @@
 	</nav>
 
 	<!-- Page Content -->
-	<div class="listItemContainer">
+	<div class="card mx-auto mt-4 mb-4">
+    	<h5 class="card-header">Item Details</h5>
+    	<div class="card-body">
+      		<ul id="itemContainer" class="list-group d-flex flex-row flex-wrap"></ul>
+    	</div>
+  	</div>
+  
+	<div class="itemContainer2 mt-4 mb-4">
 		<div class="loader"></div>
 		<div class="card text-center mx-auto">
 			<div class="card-header">
 				<ul class="nav nav-tabs card-header-tabs">
 					<li class="nav-item"><a class="nav-link active"
-						data-toggle="tab" href="#listItem">List Item</a></li>
+						data-toggle="tab" href="#listItem">Item Details</a></li>
 				</ul>
 			</div>
 			<div class="card-body">
 				<div class="tab-content">
 					<div class="tab-pane fade show active" id="listItem">
 						<form id="listItemForm" name="listItemForm" action="userHome.jsp">
+							<div class="form-group row">
+								<label for="item_id" class="col-sm-2 col-form-label">Item ID</label>
+								<div class="col-sm-10">
+									<output class="form-control" id="item_id" name="item_id"></output>
+								</div>								
+								<label for="user_id" class="col-sm-2 col-form-label">User ID</label>
+								<div class="col-sm-10">
+									<a href="#"><output class="form-control" id="user_id" name="user_id"></output></a>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="item_like_count" class="col-sm-2 col-form-label">Item Like Count</label>
+								<div class="col-sm-10">
+									<output class="form-control" id="item_like_count" name="item_like_count"></output>
+								</div>
+								<label for="item_status" class="col-sm-2 col-form-label">Item Status</label>
+								<div class="col-sm-10">
+									<output class="form-control" id="item_status" name="item_status"></output>
+								</div>
+							</div>
 							<div class="form-group row">
 								<label for="item_title" class="col-sm-2 col-form-label">Title</label>
 								<div class="col-sm-10">
@@ -143,10 +156,7 @@
 							<div class="form-group row">
 								<label for="photo" class="col-sm-2 col-form-label">Photo</label>
 								<div class="col-sm-10">
-									<input type="file" class="form-control" id="photo" name="photo"
-										size="20" onchange="readURL(this);" /> <img id="image"
-										name="image" src="" style="width: 150px" />
-									<p id="photo_name"></p>
+									<output class="form-control" id="photo" name="photo"></output>
 								</div>
 							</div>
 							<div class="form-group row">
@@ -167,8 +177,7 @@
 								<div class="col-sm-4">
 									<output class="form-control" id="item_condition" name="item_condition"></output>
 								</div>
-								<label for="selling_price" class="col-sm-2 col-form-label">Selling
-									Price</label>
+								<label for="selling_price" class="col-sm-2 col-form-label">Selling Price</label>
 								<div class="col-sm-4">
 									<output class="form-control" id="selling_price" name="selling_price"></output>
 								</div>
@@ -180,18 +189,16 @@
 								</div>
 							</div>
 							<div class="form-group row">
-								<label for="item_delivery_mode" class="col-sm-2 col-form-label">Delivery
-									Mode</label>
+								<label for="item_delivery_mode" class="col-sm-2 col-form-label">Delivery Mode</label>
 								<div class="col-sm-4">
 									<output class="form-control" id="item_delivery_mode" name="item_delivery_mode"></output>
 								</div>
-								<label for="shipping_fee" class="col-sm-2 col-form-label">Shipping
-									Fee</label>
+								<label for="shipping_fee" class="col-sm-2 col-form-label">Shipping Fee</label>
 								<div class="col-sm-4">
 									<output class="form-control" id="shipping_fee" name="shipping_fee"></output>
 								</div>
 							</div>
-							<button type="submit" class="btn btn-danger">Delete Item</button>
+							<button type="submit" class="btn btn-success">List Item</button>
 						</form>
 					</div>
 				</div>
