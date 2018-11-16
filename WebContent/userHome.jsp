@@ -40,15 +40,13 @@
                       str += '<div class="card h-100">';
                       // str += '<a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>';
                       // str += '<a href="itemDetails.jsp?item_id=' + item.item_id + '"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>';
-                      str += '<a href="http://localhost:8080/Assignment/Java Resources/src/servlets/ItemDetailsServlet?item_id=' + item.item_id + '"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>';
-                      
-                      //http://localhost:8080/Assignment/Java Resources/src/servlets/ItemDetailsServlet?item_id=
+                      str += '<a href="itemDetails.jsp?item_id=' + item.item_id + '"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>';
                       
                       str += '<div class="card-body">';
                       str += '<h4 class="card-title">';
                       // str += '<a id="itemTitle" data-toggle="modal" href="#itemModal">' + item.item_title + '</a>';
                       //str += '<a href="itemDetails.jsp"><div id="itemTitle" data-toggle="modal">' + item.item_title + '</div></a>';
-                      str += '<a href="http://localhost:8080/Assignment/Java Resources/src/servlets/ItemDetailsServlet?item_id=' + item.item_id + '"><div id="itemTitle" data-toggle="modal">' + item.item_title + '</div></a>';
+                      str += '<a href="itemDetails.jsp?item_id=' + item.item_id + '"><div id="itemTitle" data-toggle="modal">' + item.item_title + '</div></a>';
                       
                       //str += '<div id="itemId" style="display:none">' + item.item_id + '</div>';
                       str += '<div id="itemUserId" style="display:none">' + item.user_id + '</div>';

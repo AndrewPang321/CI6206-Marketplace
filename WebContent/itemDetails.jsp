@@ -41,6 +41,7 @@
         	"item_location", "item_delivery_mode", "item_like_count", "item_status", "selling_price", "shipping_fee",
         	"active", "remarks"];
         var str = "";
+
         $.get("itemdetails", function(output) {
             if (output != "-1") {
             	itemInfo = output;
