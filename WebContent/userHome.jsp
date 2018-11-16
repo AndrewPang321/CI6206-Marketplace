@@ -57,7 +57,7 @@
               } else {
                   str += '<div class="card mx-auto">';
                   str += '<div class="card-body">';
-                  str += '<h5>You have no selling items yet!</h5>';
+                  str += '<h5>Please sign in first!</h5>';
                   str += '</div>';
                   str += '</div>';
               }
@@ -81,14 +81,14 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="userHome.jsp">Marketplace</a>
+        <a class="navbar-brand" href="index.html">Marketplace</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="userHome.jsp">Home
+              <a class="nav-link" href="index.html">Home
                 <span class="sr-only">(current)</span>
               </a>
             </li>
@@ -119,9 +119,9 @@
 
           <h1 class="my-4">Shop Name</h1>
           <div class="list-group">
+            <a href="userHome.jsp" class="list-group-item">User Home</a>
             <a href="listItem.jsp" class="list-group-item">List Item</a>
             <a href="userProfile.jsp" class="list-group-item">Profile</a>
-            <a href="#" class="list-group-item">Category 3</a>
           </div>
 
         </div>
