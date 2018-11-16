@@ -6,12 +6,12 @@ import database.UserAccount;
 import database.Item;
 
 import java.io.*;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
+import com.google.gson.Gson;
 import com.mysql.jdbc.Blob;
 
 import javax.servlet.ServletException;
@@ -57,15 +57,35 @@ public class ItemDetailsServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
+		//request.getParameter("item_id");
+		//String str_item_id = request.getAttribute("item_id").toString();
+		String str_item_id = request.getParameter("item_id");
+		System.out.print("String Item ID returned is: " + str_item_id);
 		
-		int user_id = User.currentUser.getUserId();
-    	System.out.print("User ID returned is: " + user_id);
+        if (User.currentUser != null) {
+            int user_id = User.currentUser.getUserId();
+            Item item;
+
+            try {
+                DBAO DB = new DBAO();
+                item = DB.getUserWithItemDetails(user_id, 55); // test item.getItemId() item_id 55
+                response.setStatus(200);
+            } catch (Exception ex) {
+                response.setStatus(400);
+                throw new ServletException(ex);
+            }
+            String itemInfoJson = new Gson().toJson(item);
+            response.setContentType("application/json");
+            PrintWriter out = response.getWriter();
+            out.print(itemInfoJson);
+            out.flush();
+        } else {
+            response.setContentType("text/html");
+            PrintWriter out = response.getWriter();
+            out.append("-1");
+            out.close();
+        }
         
-        if ("".equals(user_id)) {
-            // List item fail, 400: Bad Request
-            response.setStatus(400);
-            return;
-        } 
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
