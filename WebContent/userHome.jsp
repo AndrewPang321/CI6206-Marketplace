@@ -16,7 +16,7 @@
     <!-- Custom styles for this template -->
     <link href="css/shop-homepage.css" rel="stylesheet">
 	<link href="css/util.css" rel="stylesheet">
-    
+
     <!-- Bootstrap core JavaScript -->
     <script src="lib/jquery/jquery.min.js"></script>
     <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>

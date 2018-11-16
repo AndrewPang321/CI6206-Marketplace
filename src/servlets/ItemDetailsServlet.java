@@ -61,8 +61,8 @@ public class ItemDetailsServlet extends HttpServlet {
 		//request.getParameter("item_id");
 		//String str_item_id = request.getAttribute("item_id").toString();
 		String str_item_id = request.getParameter("item_id");
+		System.out.println(str_item_id);
 
-		System.out.print("getParameter String Item ID returned is: " + str_item_id);
 
         if (User.currentUser != null) {
             int user_id = User.currentUser.getUserId();

@@ -35,6 +35,14 @@
 	<script>
 	$(document).ready(function () {
         loginLogoutToggle();
+
+        var url = window.location.href;
+        url = url.split("=");
+        var item_id = url[1];
+
+        $.get("itemdetails", { item_id: item_id }, function(data) {
+            // Implementation using return value of doGet
+        });
         
         var itemInfo;
         var itemLabel = ["item_id", "user_id", "item_title", "item_category", "item_description", "item_condition", 
