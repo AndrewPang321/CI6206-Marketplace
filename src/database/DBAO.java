@@ -595,4 +595,43 @@ public class DBAO {
         return username;
     }
 
+    public String getItemTitle(int item_id) throws GeneralException {
+        boolean acquireConnection = false;
+        String item_title = null;
+
+        try {
+            String sqlStatement = "SELECT MAX(item_title) AS item_title FROM t_item WHERE item_id = ?";
+            if (conFree) {
+                getConnection();
+                acquireConnection = true;
+            }
+
+            PreparedStatement prepStmt = con.prepareStatement(sqlStatement);
+            prepStmt.setInt(1, item_id);
+            ResultSet rs = prepStmt.executeQuery();
+
+            /*if (rs.next()) {
+            	item = new Item(rs.getInt("item_id"), rs.getInt("user_id"),rs.getString("item_title"),
+                        rs.getString("item_category"), rs.getString("item_description"), rs.getString("item_condition"),
+                        rs.getString("item_location"), rs.getString("item_delivery_mode"),
+                        rs.getInt("item_like_count"), rs.getString("item_status"), rs.getFloat("selling_price"),
+                        rs.getFloat("shipping_fee"), rs.getString("active"), rs.getString("remarks"));
+            }*/
+
+            if (rs.next()) {
+                item_title = rs.getString("item_title");
+            }
+            prepStmt.close();
+
+        } catch (SQLException ex) {
+            releaseConnection();
+            throw new GeneralException(ex.getMessage());
+        }
+
+        if (acquireConnection) {
+            releaseConnection();
+        }
+        return item_title;
+    }
+
 }
