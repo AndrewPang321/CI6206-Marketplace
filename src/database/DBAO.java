@@ -286,6 +286,46 @@ public class DBAO {
         }
         return item_id;
     }
+    
+    public Item getUserWithItemDetails(int user_id, int item_id) throws GeneralException {
+    	boolean acquireConnection = false;
+    	Item item = null;
+
+        try {
+            String sqlStatement = "SELECT item_id, user_id, item_title, item_category, item_description,"
+            		+ " item_condition, item_location, item_delivery_mode, item_like_count,"
+            		+ " item_status, selling_price, shipping_fee, active, remarks FROM t_item WHERE user_id = ? AND item_id = ?";
+            if (conFree) {
+                getConnection();
+                acquireConnection = true;
+            }
+
+            PreparedStatement prepStmt = con.prepareStatement(sqlStatement);
+            prepStmt.setInt(1, user_id);
+            prepStmt.setInt(2, item_id);
+            ResultSet rs = prepStmt.executeQuery();
+            
+            if (rs.next()) {
+            	item = new Item(rs.getInt("item_id"), rs.getInt("user_id"),rs.getString("item_title"),
+                        rs.getString("item_category"), rs.getString("item_description"), rs.getString("item_condition"), 
+                        rs.getString("item_location"), rs.getString("item_delivery_mode"), 
+                        rs.getInt("item_like_count"), rs.getString("item_status"), rs.getFloat("selling_price"), 
+                        rs.getFloat("shipping_fee"), rs.getString("active"), rs.getString("remarks"));
+            	item.setItem_id(item_id);
+            }
+            
+            prepStmt.close();
+
+        } catch (SQLException ex) {
+            releaseConnection();
+            throw new GeneralException(ex.getMessage());
+        }
+
+        if (acquireConnection) {
+            releaseConnection();
+        }
+        return item;
+    }
 
     public void addItemPhoto(int item_id, String photo_name) throws GeneralException {
         boolean acquireConnection = false;
