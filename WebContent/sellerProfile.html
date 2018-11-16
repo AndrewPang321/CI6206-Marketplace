@@ -23,7 +23,7 @@
   </head>
   <script>
       $(document).ready(function() {
-          var sellerProfileDetails
+          var sellerProfileDetails;
           var str = "";
           $.get("sellerProfile", function(output) {
         	  sellerProfileDetails = output;
@@ -86,7 +86,7 @@
               <a class="nav-link" href="#">Contact</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="userProfile.html">Profile</a>
+              <a class="nav-link" href="userProfile.jsp">Profile</a>
             </li>
           </ul>
         </div>
@@ -103,7 +103,7 @@
           <h1 class="my-4">Shop Name</h1>
           <div class="list-group">
             <a href="listItem.jsp" class="list-group-item">List Item</a>
-            <a href="userProfile.html" class="list-group-item">User Profile</a>
+            <a href="userProfile.jsp" class="list-group-item">User Profile</a>
             <a href="#" class="list-group-item">Category 3</a>
           </div>
 

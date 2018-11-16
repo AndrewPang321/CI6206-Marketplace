@@ -19,8 +19,3 @@ function loginLogoutToggle() {
         }
     });
 }
-
-// function loginLogoutToggle() {
-//     var currentUserObj = getCurrentUser();
-//
-// }

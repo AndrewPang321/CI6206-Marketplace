@@ -211,13 +211,13 @@ public class DBAO {
             releaseConnection();
         }
     }
-    
+
     public void addItem(int user_id, String item_title, String item_category, String item_description, String item_condition,
     		String item_location, String item_delivery_mode, float selling_price, float shipping_fee) throws GeneralException {
         boolean acquireConnection = false;
-        
+
         try {
-            String sqlStatement = "INSERT INTO t_item(user_id, item_title, item_category, " + 
+            String sqlStatement = "INSERT INTO t_item(user_id, item_title, item_category, " +
             		"item_description, item_condition, item_location, item_delivery_mode, " +
             		"selling_price, shipping_fee) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             if (conFree) {
@@ -237,7 +237,7 @@ public class DBAO {
             prepStmt.setFloat(9, shipping_fee);
             prepStmt.executeUpdate();
             prepStmt.close();
-            
+
         } catch (SQLException ex) {
             releaseConnection();
             throw new GeneralException(ex.getMessage());
@@ -247,7 +247,7 @@ public class DBAO {
             releaseConnection();
         }
     }
-    
+
     public int getItemId(int user_id) throws GeneralException {
         boolean acquireConnection = false;
         int item_id = -1;
@@ -270,12 +270,12 @@ public class DBAO {
                         rs.getInt("item_like_count"), rs.getString("item_status"), rs.getFloat("selling_price"), 
                         rs.getFloat("shipping_fee"), rs.getString("active"), rs.getString("remarks"));
             }*/
-            
+
             if (rs.next()) {
             	item_id = rs.getInt("item_id");
             }
             prepStmt.close();
-            
+
         } catch (SQLException ex) {
             releaseConnection();
             throw new GeneralException(ex.getMessage());
@@ -286,10 +286,10 @@ public class DBAO {
         }
         return item_id;
     }
-    
+
     public void addItemPhoto(int item_id, String photo_name) throws GeneralException {
         boolean acquireConnection = false;
-        
+
         try {
             // String sqlStatement = "INSERT INTO t_item_photo(item_id, photo_name, photo) VALUES (?, ?, ?)";
         	String sqlStatement = "INSERT INTO t_item_photo(item_id, photo_name) VALUES (?, ?)";
@@ -306,7 +306,7 @@ public class DBAO {
             // prepStmt.setBlob(3, photo);            
             prepStmt.executeUpdate();
             prepStmt.close();
-            
+
         } catch (SQLException ex) {
             releaseConnection();
             throw new GeneralException(ex.getMessage());
@@ -380,13 +380,13 @@ public class DBAO {
         }
         return itemPhoto;
     }
-     public ArrayList<Item> getAllItems(int user_id) throws GeneralException {
-        ArrayList<Item> allItems = new ArrayList<Item>();
+     public ArrayList<Item> getAllItemWithUserId(int user_id) throws GeneralException {
+        ArrayList<Item> allItems = new ArrayList<>();
 
         try {
             String sqlStatement = "SELECT * FROM t_item where user_id = ?";
             getConnection();
-            
+
 
             PreparedStatement prepStmt = con.prepareStatement(sqlStatement);
             prepStmt.setInt(1, user_id);
@@ -424,12 +424,12 @@ public class DBAO {
 
             if (rs.next()) {
             	int user_id = rs.getInt("user_id");
-            	ArrayList<Item> item = getAllItems(user_id);
+            	ArrayList<Item> item = getAllItemWithUserId(user_id);
                 user = new User(rs.getString("email"), rs.getString("firstname"), rs.getString("lastname")
                 				, rs.getString("gender"), rs.getInt("contact")
                     			, rs.getString("country")
                     			, item);
-            	
+
             }
             prepStmt.close();
         } catch (SQLException ex) {
@@ -439,31 +439,81 @@ public class DBAO {
         releaseConnection();
         return user;
     }
-   public User getCurrentUserProfile(int user_id) throws Exception {
+
+    public User updateUser(int user_id) throws SignUpException {
+        User user = new User();
+        try {
+    			/*"UPDATE t_user SET email = ?, firstname = ?, lastname = ?, date_of_birth = ? , gender = ?, contact = ?," +
+    					"address = ?, country = ?, postal_code = ?";*/
+
+            String sqlStatement = "UPDATE t_user(email, firstname, " +
+                    "lastname, dateOfBirth, gender, contact, " +
+                    "address, country, postal_code) SET VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) WHERE t.user_id = ? " ;
+            getConnection();
+
+            PreparedStatement prepStmt = con.prepareStatement(sqlStatement);
+            prepStmt.setInt(1, user_id);
+            ResultSet rs = prepStmt.executeQuery();
+            if (rs.next()) {
+
+                prepStmt.setString(2, user.getEmail());
+                prepStmt.setString(3, user.getFirstname());
+                prepStmt.setString(4, user.getLastname());
+                prepStmt.setString(5, String.valueOf(user.getDateOfBirth()));
+                prepStmt.setString(6, user.getGender());
+                prepStmt.setInt(7, user.getContact());
+                prepStmt.setString(8, user.getAddress());
+                prepStmt.setString(9, user.getCountry());
+                prepStmt.setInt(10, user.getPostalCode());
+                prepStmt.executeUpdate();
+            }
+
+            String getIdStatement = "SELECT * FROM t_user WHERE t.user_id = ?";
+            prepStmt = con.prepareStatement(getIdStatement);
+            prepStmt.setInt(1, user_id);
+            ResultSet rs2 = prepStmt.executeQuery();
+
+            if (rs2.next()) {
+                user_id = rs2.getInt("user_id");
+            }
+            prepStmt.close();
+        } catch (SQLException ex) {
+            releaseConnection();
+            throw new SignUpException(ex.getMessage());
+        }
+        releaseConnection();
+        return user;
+    }
+
+
+    public User getUserWithId(int user_id) throws Exception {
         User user = null;
         try {
-            String sqlStatement = "SELECT * FROM t_user WHERE t_user.id = ?";
+            String sqlStatement = "SELECT * FROM t_user WHERE user_id = ?";
             getConnection();
-            													
+
             PreparedStatement prepStmt = con.prepareStatement(sqlStatement);
             prepStmt.setInt(1, user_id);
             ResultSet rs = prepStmt.executeQuery();
 
             if (rs.next()) {
-                    // Convert date string to date object
-                    DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-                    Date dateOfBirthWithTypeDate = null;
-                    try {
-                        dateOfBirthWithTypeDate = dateFormatter.parse(rs.getString("date_of_birth"));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
+                String username = getUsername(user_id);
 
-                    user = new User(rs.getString("email"), rs.getString("firstname"), rs.getString("lastname")
-                            , dateOfBirthWithTypeDate, rs.getString("gender"), rs.getInt("contact")
-                            , rs.getString("address"), rs.getInt("postal_code"), rs.getString("country")
-                            );
-                }   
+                // Convert date string to date object
+                DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+                Date dateOfBirthWithTypeDate = null;
+                try {
+                    dateOfBirthWithTypeDate = dateFormatter.parse(rs.getString("date_of_birth"));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                user = new User(rs.getString("email"), rs.getString("firstname"),
+                        rs.getString("lastname"), dateOfBirthWithTypeDate, rs.getString("gender"),
+                        rs.getInt("contact"), rs.getString("address"),
+                        rs.getInt("postal_code"), rs.getString("country"), username);
+                user.setUser_id(user_id);
+            }
             prepStmt.close();
         } catch (SQLException ex) {
             releaseConnection();
@@ -472,49 +522,35 @@ public class DBAO {
         releaseConnection();
         return user;
     }
-     public User updateUser(int user_id) throws SignUpException {
-    		User user = new User();
-    		try {
-    			/*"UPDATE t_user SET email = ?, firstname = ?, lastname = ?, date_of_birth = ? , gender = ?, contact = ?," + 
-    					"address = ?, country = ?, postal_code = ?";*/
-    
-    			String sqlStatement = "UPDATE t_user(email, firstname, " + 
-                		"lastname, dateOfBirth, gender, contact, " +
-                		"address, country, postal_code) SET VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) WHERE t.user_id = ? " ;
-    			getConnection();
-    			
-    			PreparedStatement prepStmt = con.prepareStatement(sqlStatement);
-                prepStmt.setInt(1, user_id);
-                ResultSet rs = prepStmt.executeQuery();
-                if (rs.next()) {
-                	
-                	prepStmt.setString(2, user.getEmail());
-                	prepStmt.setString(3, user.getFirstname());
-                	prepStmt.setString(4, user.getLastname());
-                	prepStmt.setString(5, String.valueOf(user.getDateOfBirth()));
-                	prepStmt.setString(6, user.getGender());
-                	prepStmt.setInt(7, user.getContact());
-                	prepStmt.setString(8, user.getAddress());
-                	prepStmt.setString(9, user.getCountry());
-                	prepStmt.setInt(10, user.getPostalCode());
-    				prepStmt.executeUpdate();
-                }
-                
-    			String getIdStatement = "SELECT * FROM t_user WHERE t.user_id = ?";
-    			prepStmt = con.prepareStatement(getIdStatement);
-    			prepStmt.setInt(1, user_id);
-    			ResultSet rs2 = prepStmt.executeQuery();
-    			
-    			if (rs2.next()) {
-    				user_id = rs2.getInt("user_id");
-    			}
-    			prepStmt.close();
-    			} catch (SQLException ex) {
-    				releaseConnection();
-    				throw new SignUpException(ex.getMessage());
-    				}
-    			releaseConnection();
-    			return user;
-    		}
-    
+
+    public String getUsername(int user_id) throws UserNotFoundException {
+        String username = "";
+        boolean acquireConnection = false;
+
+        try {
+            String sqlStatement = "SELECT username FROM t_user_account WHERE t_user_account.user_id = ?";
+            if (conFree) {
+                getConnection();
+                acquireConnection = true;
+            }
+
+            PreparedStatement prepStmt = con.prepareStatement(sqlStatement);
+            prepStmt.setInt(1, user_id);
+            ResultSet rs = prepStmt.executeQuery();
+            if (rs.next()) {
+                username = rs.getString("username");
+            }
+
+            prepStmt.close();
+        } catch (SQLException ex) {
+            releaseConnection();
+            throw new UserNotFoundException(ex.getMessage());
+        }
+
+        if (acquireConnection) {
+            releaseConnection();
+        }
+        return username;
+    }
+
 }

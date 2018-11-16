@@ -77,14 +77,12 @@ public class ListItemServlet extends HttpServlet {
         float shipping_fee = Float.parseFloat(request.getParameter("shipping_fee"));
         
         //for testing int user_id = 1;
-        int user_id = User.currentUser.getUserId();
-        
-        if ("".equals(user_id)) {
+        if (User.currentUser == null) {
             // List item fail, 400: Bad Request
             response.setStatus(400);
             return;
-        }        
-        
+        }
+        int user_id = User.currentUser.getUserId();
         
         try {
         	// add new listing item into database

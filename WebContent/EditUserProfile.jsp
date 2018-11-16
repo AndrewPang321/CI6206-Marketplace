@@ -58,7 +58,7 @@
                 });
                 setTimeout(function () {
                   // window.location.replace("index.html")
-                  window.location.replace("userProfile.html")
+                  window.location.replace("userProfile.jsp")
                 }, 1500);
                 break;
               case 400:
@@ -126,7 +126,7 @@
       </div>
       <div class="card-body">
         <div class="tab-content">
-          <div class="tab-pane fade" id="editUserProfile">
+          <div class="tab-pane fade">
             <form id="editUserProfile">
               <div class="form-group row">
                 <label for="signupEmail" class="col-sm-2 col-form-label">Email</label>

@@ -15,7 +15,6 @@
 
     <!-- Custom styles for this template -->
     <link href="css/shop-homepage.css" rel="stylesheet">
-    <link href="css/login.css" rel="stylesheet">
 	<link href="css/util.css" rel="stylesheet">
     
     <!-- Bootstrap core JavaScript -->
@@ -24,47 +23,55 @@
     
     <!-- JavaScript files -->
 	<script src="js/util.js"></script>
-	<script src="js/login.js"></script>
-	<script src="js/auth.js"></script>
+    <script src="js/auth.js"></script>
 
   </head>
   <script>
       $(document).ready(function() {
-    	  loginLogoutToggle();
+          loginLogoutToggle();
+
           var itemsCollection;
           var str = "";
           $.get("userhome", function(output) {
               itemsCollection = output;
-              itemsCollection.forEach(function(item) {
-                  str += '<div class="col-lg-4 col-md-6 mb-4">';
-                  str += '<div class="card h-100">';
-                  str += '<a href="itemDetails.jsp"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>';
+              if (itemsCollection != "-1") {
+                  itemsCollection.forEach(function (item) {
+                      str += '<div class="col-lg-4 col-md-6 mb-4">';
+                      str += '<div class="card h-100">';
+                      str += '<a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>';
+                      str += '<div class="card-body">';
+                      str += '<h4 class="card-title">';
+                      str += '<a id="itemTitle" data-toggle="modal" href="#itemModal">' + item.item_title + '</a>';
+                      str += '<div id="itemId" style="display:none">' + item.item_id + '</div>';
+                      str += '<div id="itemUserId" style="display:none">' + item.user_id + '</div>';
+                      str += '</h4>';
+                      str += '<h5>$' + item.selling_price + '</h5>';
+                      str += '<p class="card-text">' + item.item_description + '</p>';
+                      str += '</div>';
+                      // str += '<div class="card-footer">';
+                      // str += '<small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>';
+                      // str += '</div>';
+                      str += '</div>';
+                      str += '</div>';
+                  });
+              } else {
+                  str += '<div class="card mx-auto">';
                   str += '<div class="card-body">';
-                  str += '<h4 class="card-title">';
-                  str += '<a href="itemDetails.jsp"><div id="itemTitle" data-toggle="modal">' + item.item_title + '</div></a>';                  
-                  str += '<div id="itemId" style="display:none">' + item.item_id + '</div>';
-                  str += '<div id="itemUserId" style="display:none">' + item.user_id + '</div>';
-                  str += '</h4>';
-                  str += '<h5>$' + item.selling_price + '</h5>';
-                  str += '<p class="card-text">' + item.item_description + '</p>';
-                  str += '</div>';
-                  // str += '<div class="card-footer">';
-                  // str += '<small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>';
-                  // str += '</div>';
+                  str += '<h5>Please sign in first!</h5>';
                   str += '</div>';
                   str += '</div>';
-              });
+              }
               $("#collection").html(str);
           });
 
-          /* $("#itemModal").on("show.bs.modal", function(event) {
+          $("#itemModal").on("show.bs.modal", function(event) {
               var itemId = $(event.relatedTarget).parent().find("#itemId").text();
               var itemUserId = $(event.relatedTarget).parent().find("#itemUserId").text();
               var itemTitle = $(event.relatedTarget).parent().find("#itemTitle").text();
               $("#itemModalTitle").text(itemTitle);
               console.log("Item ID: " + itemId);
               console.log("User ID in item: " + itemUserId);
-          }); */
+          });
       });
 
   </script>
@@ -74,14 +81,14 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="userHome.jsp">Marketplace</a>
+        <a class="navbar-brand" href="index.html">Marketplace</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="userHome.jsp">Home
+              <a class="nav-link" href="index.html">Home
                 <span class="sr-only">(current)</span>
               </a>
             </li>
@@ -95,9 +102,9 @@
               <a class="nav-link" href="#">Contact</a>
             </li>
             <li class="nav-item">
-				<a id="loginNav" class="nav-link" href="login.jsp">Login</a>
-				<button type="button" id="logoutNav" class="btn btn-dark" onclick="logout()">Logout</button>
-			</li>
+              <a id="loginNav" class="nav-link" href="login.jsp">Login</a>
+              <button type="button" id="logoutNav" class="btn btn-dark" onclick="logout()">Logout</button>
+            </li>
           </ul>
         </div>
       </div>
@@ -112,9 +119,9 @@
 
           <h1 class="my-4">Shop Name</h1>
           <div class="list-group">
+            <a href="userHome.jsp" class="list-group-item">User Home</a>
             <a href="listItem.jsp" class="list-group-item">List Item</a>
-            <a href="userProfile.html" class="list-group-item">Profile</a>
-            <a href="#" class="list-group-item">Category 3</a>
+            <a href="userProfile.jsp" class="list-group-item">Profile</a>
           </div>
 
         </div>
@@ -122,52 +129,7 @@
 
         <div class="col-lg-9">
 
-          <!--<div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">-->
-            <!--<ol class="carousel-indicators">-->
-              <!--<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>-->
-              <!--<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>-->
-              <!--<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>-->
-            <!--</ol>-->
-            <!--<div class="carousel-inner" role="listbox">-->
-              <!--<div class="carousel-item active">-->
-                <!--<img class="d-block img-fluid" src="http://placehold.it/900x350" alt="First slide">-->
-              <!--</div>-->
-              <!--<div class="carousel-item">-->
-                <!--<img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide">-->
-              <!--</div>-->
-              <!--<div class="carousel-item">-->
-                <!--<img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide">-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">-->
-              <!--<span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
-              <!--<span class="sr-only">Previous</span>-->
-            <!--</a>-->
-            <!--<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">-->
-              <!--<span class="carousel-control-next-icon" aria-hidden="true"></span>-->
-              <!--<span class="sr-only">Next</span>-->
-            <!--</a>-->
-          <!--</div>-->
-
-          <div class="row mt-5" id="collection">
-
-            <!--<div class="col-lg-4 col-md-6 mb-4">-->
-              <!--<div class="card h-100">-->
-                <!--<a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>-->
-                <!--<div class="card-body">-->
-                  <!--<h4 class="card-title">-->
-                    <!--<a href="#">Item One</a>-->
-                  <!--</h4>-->
-                  <!--<h5>$24.99</h5>-->
-                  <!--<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>-->
-                <!--</div>-->
-                <!--<div class="card-footer">-->
-                  <!--<small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</div>-->
-
-          </div>
+          <div class="row mt-5" id="collection"></div>
           <!-- /.row -->
 
         </div>
@@ -180,7 +142,7 @@
     <!-- /.container -->
 
     <!-- Modal -->
-    <!-- <div class="modal fade" id="itemModal" tabindex="-1" role="dialog" aria-labelledby="itemModalTitle" aria-hidden="true">
+    <div class="modal fade" id="itemModal" tabindex="-1" role="dialog" aria-labelledby="itemModalTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -198,7 +160,7 @@
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
 
     <!-- Footer -->
     <footer class="py-5 bg-dark">

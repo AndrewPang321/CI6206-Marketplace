@@ -39,7 +39,6 @@ public class LoginServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         out.print(currentUser);
         out.flush();
-        return;
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

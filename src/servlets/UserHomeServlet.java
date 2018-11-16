@@ -26,22 +26,20 @@ public class UserHomeServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
-    	int user_id = User.currentUser.getUserId();
-    	// System.out.print("User ID returned is: " + user_id);
-        
-        if ("".equals(user_id)) {
-            // List item fail, 400: Bad Request
-            response.setStatus(400);
-            return;
-        } 
-    	
-    	// Auto-generated method stub
-        ArrayList<Item> allItems = new ArrayList<>();
 
+    	if (User.currentUser == null) {
+            response.setContentType("text/html");
+            PrintWriter out = response.getWriter();
+            out.append("-1");
+            out.close();
+            return;
+        }
+        int user_id = User.currentUser.getUserId();
+
+        ArrayList<Item> allItems = new ArrayList<>();
         try {
             DBAO DB = new DBAO();
-            allItems.addAll(DB.getAllItems(user_id));
+            allItems.addAll(DB.getAllItemWithUserId(user_id));
             response.setStatus(200);
         } catch (Exception ex) {
             response.setStatus(400);

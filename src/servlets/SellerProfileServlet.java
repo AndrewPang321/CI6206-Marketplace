@@ -17,9 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-/**
- * Servlet implementation class SellerProfileServlet
- */
 @WebServlet("/sellerProfile")
 public class SellerProfileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -27,23 +24,18 @@ public class SellerProfileServlet extends HttpServlet {
     /**
      * Default constructor. 
      */
-    public SellerProfileServlet() {
-        // TODO Auto-generated constructor stub
-    }
+    public SellerProfileServlet() { }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// Auto-generated method stub
 		int sellerId = Integer.parseInt(request.getParameter("sellerId"));
         ArrayList<Item> allSellerItems = new ArrayList<>();
-        User seller = new User();
+        User seller;
 
         try {
             DBAO DB = new DBAO();
             seller = DB.getSeller(sellerId);
-            allSellerItems.addAll(DB.getAllItems(sellerId));
+            allSellerItems.addAll(DB.getAllItemWithUserId(sellerId));
             seller.setItem(allSellerItems);
             response.setStatus(200);
         } catch (Exception ex) {
@@ -57,10 +49,6 @@ public class SellerProfileServlet extends HttpServlet {
         out.flush();
     }
 
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 
