@@ -407,6 +407,7 @@ public class DBAO {
                 itemPhoto = new ItemPhoto(rs.getInt("item_id"), rs.getString("photo_name"),
                         rs.getString("photo"), rs.getString("active"),
                         rs.getString("remarks"));
+                itemPhoto.setPhotoData(rs.getBytes("photo"));
             }
 
             prepStmt.close();
@@ -440,7 +441,7 @@ public class DBAO {
                         rs.getInt("item_like_count"), rs.getString("item_status"),
                         rs.getFloat("selling_price"), rs.getFloat("shipping_fee"),
                         rs.getString("active"), rs.getString("remarks"));
-//                item.setItemPhoto(getItemPhoto(item.getItemId()));
+                item.setItemPhoto(getItemPhoto(item.getItemId()));
                 allItems.add(item);
             }
 

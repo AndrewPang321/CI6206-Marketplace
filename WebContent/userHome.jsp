@@ -36,12 +36,24 @@
               itemsCollection = output;
               if (itemsCollection != "-1") {
                   itemsCollection.forEach(function (item) {
+                      // Obtain a blob: URL for the image data.
+                      if (item.itemPhoto != undefined && item.itemPhoto != null) {
+                          var arrayBufferView = new Uint8Array(item.itemPhoto.photo_data);
+                          var blob = new Blob([arrayBufferView], {type: "image/jpeg"});
+                          var urlCreator = window.URL || window.webkitURL;
+                          var imageUrl = urlCreator.createObjectURL(blob);
+                      }
+
                       str += '<div class="col-lg-4 col-md-6 mb-4">';
                       str += '<div class="card h-100">';
                       // str += '<a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>';
                       // str += '<a href="itemDetails.jsp?item_id=' + item.item_id + '"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>';
-                      str += '<a href="itemDetails.jsp?item_id=' + item.item_id + '"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>';
-                      
+                      str += '<a href="itemDetails.jsp?item_id=' + item.item_id + '">';
+                      if (item.itemPhoto != undefined && item.itemPhoto != null) {
+                          str += '<img class="card-img-top" src=' + imageUrl + ' alt=""></a>';
+                      } else {
+                          str += '<img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>';
+                      }
                       str += '<div class="card-body">';
                       str += '<h4 class="card-title">';
                       // str += '<a id="itemTitle" data-toggle="modal" href="#itemModal">' + item.item_title + '</a>';

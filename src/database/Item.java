@@ -118,6 +118,8 @@ public class Item {
         return this.user;
     }
 
+    public ItemPhoto getItemPhoto() { return this.itemPhoto; }
+
     /** Setters **/
     public void setItemId(int item_id) { this.item_id = item_id; }
 
