@@ -55,14 +55,16 @@ public class ItemDetailsServlet extends HttpServlet {
     }
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-		
 		//request.getParameter("item_id");
 		//String str_item_id = request.getAttribute("item_id").toString();
 		String str_item_id = request.getParameter("item_id");
 
 		System.out.print("getParameter String Item ID returned is: " + str_item_id);
+		
+		
+		/*String url = request.getRequestURL().toString();
+		System.out.print("url string returned is: " + url);*/
+		
 		
         if (User.currentUser != null) {
             int user_id = User.currentUser.getUserId();
