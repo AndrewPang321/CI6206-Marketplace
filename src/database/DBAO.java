@@ -311,7 +311,7 @@ public class DBAO {
                         rs.getString("item_location"), rs.getString("item_delivery_mode"), 
                         rs.getInt("item_like_count"), rs.getString("item_status"), rs.getFloat("selling_price"), 
                         rs.getFloat("shipping_fee"), rs.getString("active"), rs.getString("remarks"));
-            	item.setItem_id(item_id);
+            	item.setItemId(item_id);
             }
             
             prepStmt.close();
@@ -375,7 +375,7 @@ public class DBAO {
                         rs.getInt("item_like_count"), rs.getString("item_status"),
                         rs.getFloat("selling_price"), rs.getFloat("shipping_fee"),
                         rs.getString("active"), rs.getString("remarks"));
-//                item.setItemPhoto(getItemPhoto(item.getItemId()));
+                item.setItemPhoto(getItemPhoto(item.getItemId()));
                 allItems.add(item);
             }
 
@@ -452,10 +452,11 @@ public class DBAO {
         releaseConnection();
         return allItems;
     }
+
     public User getSeller(int seller_id) throws Exception {
         User user = null;
         try {
-            String sqlStatement = "SELECT * FROM t_user WHERE t_user.id = ?";
+            String sqlStatement = "SELECT * FROM t_user WHERE user_id = ?";
             getConnection();
 
             PreparedStatement prepStmt = con.prepareStatement(sqlStatement);
