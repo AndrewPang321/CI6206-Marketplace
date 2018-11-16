@@ -86,7 +86,7 @@
 						<form method="post" action="buyitem">
 							<div class="form-group row">
 								<label for="item_id" class="col-sm-2 col-form-label">Enter item ID</label>
-								<div class="col-sm-10">
+								<div class="col-sm-10"><%= request.getParameter("item_id") %>
 									<input type="hidden" class="form-control" id="item_id"
 										name="item_id"  value=<%= request.getParameter("item_id") %> required>
 								</div>
