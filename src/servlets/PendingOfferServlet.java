@@ -67,7 +67,7 @@ public class PendingOfferServlet extends HttpServlet {
 
             try {
                 DBAO DB = new DBAO();
-                offer = DB.getItemPendingOffer(item_id);
+                offer = DB.getPendingOffer(item_id);
                 
                 response.setStatus(200);
             } catch (Exception ex) {
@@ -89,35 +89,7 @@ public class PendingOfferServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession httpSession = request.getSession(true);
 		
-		
-        
-		if (User.currentUser != null) {
-            int user_id = User.currentUser.getUserId();
-            Item item;
-
-            try {
-                DBAO DB = new DBAO();
-                item = DB.getUserWithItemDetails(user_id, 55); // test item.getItemId() item_id 55
-                response.setStatus(200);
-            } catch (Exception ex) {
-                response.setStatus(400);
-                throw new ServletException(ex);
-            }
-            String itemInfoJson = new Gson().toJson(item);
-            response.setContentType("application/json");
-            PrintWriter out = response.getWriter();
-            out.print(itemInfoJson);
-            out.flush();
-        } else {
-            response.setContentType("text/html");
-            PrintWriter out = response.getWriter();
-            out.append("-1");
-            out.close();
-        }
-        
-        return;
     }
 
 }

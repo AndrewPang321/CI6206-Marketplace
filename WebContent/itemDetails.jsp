@@ -40,6 +40,8 @@
         url = url.split("=");
         var item_id = url[1];
         var itemInfo;
+        var offerInfo;
+        var offerLabel = ["Buyer Id", "Item Id", "Item Title", "Offer Price", "Offer Status"];
         var itemLabel = ["Item Id", "User Id", "Item Title", "Item Category", "Item Description", "Item Condition",
         	"Item Location", "Item Delivery Mode", "Item Like Count", "Item Status", "Selling Price", "Shipping Fee",
         	"Active", "Remarks"];
@@ -48,18 +50,6 @@
         $.get("itemdetails", { item_id: item_id }, function(output) {
             if (output != "-1") {
             	itemInfo = output;
-                /* var item_id = itemInfo.item_id;
-                var user_id = itemInfo.user_id;
-                var item_title = itemInfo.item_title;
-                var item_category = itemInfo.item_category;
-                var item_description = itemInfo.item_description;
-                var item_condition = itemInfo.item_condition;
-                var item_location = itemInfo.item_location;
-                var item_delivery_mode = itemInfo.item_delivery_mode;
-                var item_like_count = itemInfo.item_like_count;
-                var item_status = itemInfo.item_status;
-                var selling_price = itemInfo.selling_price;
-                var shipping_fee = itemInfo.shipping_fee; */
 
                 var itemPlaceholder = [itemInfo.item_id, itemInfo.user_id, itemInfo.item_title, itemInfo.item_category, itemInfo.item_description,
                 	itemInfo.item_condition, itemInfo.item_location, itemInfo.item_delivery_mode, itemInfo.item_like_count, itemInfo.item_status,
@@ -78,6 +68,27 @@
                 str += "Please sign in first!";
             }
             $("#itemContainer").html(str);
+        });
+        
+        $.get("pendingoffer", { item_id: item_id }, function(output) {
+            if (output != "-1") {
+            	offerInfo = output;
+
+                var offerPlaceholder = [offerInfo.buyer_id, offerInfo.item_id, offerInfo.item_title, offerInfo.offer_price, offerInfo.offer_status];
+
+                for (var i = 0; i < offerLabel.length; i++) {
+                    str += '<li class="list-group-item w-25">';
+                    str += offerLabel[i];
+                    str += '</li>';
+                    str += '<li class="list-group-item w-75">';
+                    str += offerPlaceholder[i];
+                    str += '</li>';
+                }
+                
+            } else {
+                str += "Please sign in first!";
+            }
+            $("#offerContainer").html(str);
         });
 
     });
@@ -110,6 +121,13 @@
     	<h5 class="card-header">Item Details</h5>
     	<div class="card-body">
       		<ul id="itemContainer" class="list-group d-flex flex-row flex-wrap"></ul>
+    	</div>
+  	</div>
+  	
+  	<div class="card mx-auto mt-4 mb-4">
+    	<h5 class="card-header">Offers List</h5>
+    	<div class="card-body">
+      		<ul id="offerContainer" class="list-group d-flex flex-row flex-wrap"></ul>
     	</div>
   	</div>
 

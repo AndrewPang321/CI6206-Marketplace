@@ -58,12 +58,12 @@ public class Offer {
         return this.remarks;
     }
 
-    /** Setters **/
-    public void setBuyer_id(int buyer_id) { 
+    /** Setters **/    
+    public void setBuyerId(int buyer_id) { 
     	this.buyer_id = buyer_id; 
     }
     
-    public void setItem_id(int item_id) { 
+    public void setItemId(int item_id) { 
     	this.item_id = item_id; 
     }
 

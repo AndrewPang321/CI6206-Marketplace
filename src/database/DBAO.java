@@ -326,6 +326,60 @@ public class DBAO {
         }
         return item;
     }
+    
+    public Offer getPendingOffer(int item_id) throws GeneralException {
+    	boolean acquireConnection = false;
+    	Offer offer = null;
+
+        try {
+            String sqlStatement = "SELECT buyer_id, item_id, item_title, offer_price, offer_status "
+            		+ "FROM t_offer WHERE offer_status = 'pending' AND item_id = ?";
+            if (conFree) {
+                getConnection();
+                acquireConnection = true;
+            }
+
+            PreparedStatement prepStmt = con.prepareStatement(sqlStatement);
+            prepStmt.setInt(1, item_id);
+            ResultSet rs = prepStmt.executeQuery();
+            
+            if (rs.next()) {
+            	offer = new Offer(rs.getInt("buyer_id"), rs.getInt("item_id"), rs.getString("item_title"), 
+            			rs.getFloat("offer_price"), rs.getString("offer_status"));
+            	offer.setItemId(item_id);
+            }
+            
+            prepStmt.close();
+
+        } catch (SQLException ex) {
+            releaseConnection();
+            throw new GeneralException(ex.getMessage());
+        }
+
+        if (acquireConnection) {
+            releaseConnection();
+        }
+        return offer;
+    }
+    
+    public void acceptOfferStatus(int item_id) throws SignUpException {
+        try {
+            String sqlStatement = "UPDATE t_offer (offer_status) SET VALUES ('accept') WHERE t.item_id = ? " ;
+            getConnection();
+
+            PreparedStatement prepStmt = con.prepareStatement(sqlStatement);
+            prepStmt.setInt(1, item_id);
+            ResultSet rs = prepStmt.executeQuery();
+            if (rs.next()) {
+                prepStmt.executeUpdate();
+            }
+            prepStmt.close();
+        } catch (SQLException ex) {
+            releaseConnection();
+            throw new SignUpException(ex.getMessage());
+        }
+        releaseConnection();
+    }
 
     public void addItemPhoto(int item_id, String photo_name) throws GeneralException {
         boolean acquireConnection = false;
