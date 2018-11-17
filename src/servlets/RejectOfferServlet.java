@@ -38,8 +38,8 @@ import javax.servlet.annotation.MultipartConfig;
 /**
  * Servlet implementation class ListItemServlet
  */
-@WebServlet("/pendingoffer")
-public class PendingOfferServlet extends HttpServlet {
+@WebServlet("/rejectoffer")
+public class RejectOfferServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private static String url = "jdbc:mysql://161.117.121.110:3306/marketplace";
@@ -50,46 +50,39 @@ public class PendingOfferServlet extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PendingOfferServlet() {
+    public RejectOfferServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
     
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
-
-		String str_item_id = request.getParameter("item_id");
-		System.out.println(str_item_id);
-		int item_id = Integer.parseInt(str_item_id);
-
-        if (User.currentUser != null) {
-            // int user_id = User.currentUser.getUserId();
-            Offer offer;
-
-            try {
-                DBAO DB = new DBAO();
-                offer = DB.getPendingOffer(item_id);
-                
-                response.setStatus(200);
-            } catch (Exception ex) {
-                response.setStatus(400);
-                throw new ServletException(ex);
-            }
-            String offerInfoJson = new Gson().toJson(offer);
-            response.setContentType("application/json");
-            PrintWriter out = response.getWriter();
-            out.print(offerInfoJson);
-            out.flush();
-        } else {
-            response.setContentType("text/html");
-            PrintWriter out = response.getWriter();
-            out.append("-1");
-            out.close();
-        }
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	
+    	HttpSession httpSession = request.getSession();
+        Connection conn = null;
+        
+        String str_item_id = request.getParameter("item_id");
+		System.out.println("in reject offer (doPost): " + str_item_id);
+		int item_id = Integer.parseInt(str_item_id);
+        
+        try {
+        	// add new listing item into database
+            DBAO DB = new DBAO();
+            DB.rejectOffer(item_id);
+            // Sign up success, 201: Created
+            response.setStatus(201);
+            conn.commit();
+            System.out.println("this accept offer is for: " + item_id);
+            // Upload successfully!.
+            response.sendRedirect("/userHome.jsp");
+        } catch (Exception ex) {
+            System.out.println("servlet: "+ex);
+            throw new ServletException(ex);
+        }        
+        
+        response.sendRedirect("userHome.jsp");
     }
 
 }
