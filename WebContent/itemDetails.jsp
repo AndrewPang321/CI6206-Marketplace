@@ -39,18 +39,13 @@
         var url = window.location.href;
         url = url.split("=");
         var item_id = url[1];
-
-        $.get("itemdetails", { item_id: item_id }, function(data) {
-            // Implementation using return value of doGet
-        });
-        
         var itemInfo;
         var itemLabel = ["item_id", "user_id", "item_title", "item_category", "item_description", "item_condition", 
         	"item_location", "item_delivery_mode", "item_like_count", "item_status", "selling_price", "shipping_fee",
         	"active", "remarks"];
         var str = "";
 
-        $.get("itemdetails", function(output) {
+        $.get("itemdetails", { item_id: item_id }, function(output) {
             if (output != "-1") {
             	itemInfo = output;
                 /* var item_id = itemInfo.item_id;
@@ -65,7 +60,7 @@
                 var item_status = itemInfo.item_status;
                 var selling_price = itemInfo.selling_price;
                 var shipping_fee = itemInfo.shipping_fee; */
-                
+
                 var itemPlaceholder = [itemInfo.item_id, itemInfo.user_id, itemInfo.item_title, itemInfo.item_category, itemInfo.item_description,
                 	itemInfo.item_condition, itemInfo.item_location, itemInfo.item_delivery_mode, itemInfo.item_like_count, itemInfo.item_status,
                 	itemInfo.selling_price, itemInfo.shipping_fee, itemInfo.active, itemInfo.remarks];
