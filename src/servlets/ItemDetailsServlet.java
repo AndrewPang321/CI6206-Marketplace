@@ -62,6 +62,7 @@ public class ItemDetailsServlet extends HttpServlet {
 		//String str_item_id = request.getAttribute("item_id").toString();
 		String str_item_id = request.getParameter("item_id");
 		System.out.println(str_item_id);
+		int item_id = Integer.parseInt(str_item_id);
 
 
         if (User.currentUser != null) {
@@ -70,7 +71,7 @@ public class ItemDetailsServlet extends HttpServlet {
 
             try {
                 DBAO DB = new DBAO();
-                item = DB.getUserWithItemDetails(user_id, 55); // test item.getItemId() item_id 55
+                item = DB.getUserWithItemDetails(user_id, item_id); // test item.getItemId() item_id 55
                 
                 response.setStatus(200);
             } catch (Exception ex) {
