@@ -362,7 +362,7 @@ public class DBAO {
         return offer;
     }
     
-    public void acceptOfferStatus(int item_id) throws SignUpException {
+    public void acceptOffer(int item_id) throws SignUpException {
         try {
             String sqlStatement = "UPDATE t_offer (offer_status) SET VALUES ('accept') WHERE t.item_id = ? " ;
             getConnection();
