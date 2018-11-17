@@ -9,6 +9,21 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap core CSS -->
+    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/shop-homepage.css" rel="stylesheet">
+    
+    <!-- Bootstrap core JavaScript -->
+    <script src="lib/jquery/jquery.min.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- JavaScript files -->
+    <script src="js/util.js"></script>
+    <script src="js/auth.js"></script>
+
 </head>
 <style>
 .slidecontainer {
@@ -48,10 +63,14 @@
 </style>
 <body>
 
-    <!-- Navigation -->
+     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
         <a class="navbar-brand" href="index.html">Marketplace</a>
+       <form id="finalForm" action=SearchServlet method="get">
+        <input name="searchValue" type="search" > 
+        <input id="finalSubmit" type="submit" value="Search">
+        </form>  
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -61,19 +80,6 @@
               <a class="nav-link" href="index.html">Home
                 <span class="sr-only">(current)</span>
               </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Services</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
-            </li>
-            <li class="nav-item">
-              <a id="loginNav" class="nav-link" href="login.jsp">Login</a>
-              <button type="button" id="logoutNav" class="btn btn-dark" onclick="logout()">Logout</button>
             </li>
           </ul>
         </div>
@@ -117,10 +123,10 @@
                   <c:set var="keyName" value="${sqlItem.key}" />
                   <div class="col-lg-4 col-md-4 col-sm-6 portfolio-item tab-pane" id="tab1" style="min-width: 250px">
                      <div class="card h-100">
-                        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                        <a href="http://localhost:8080/Marketplace/buy.jsp?item_id=${sqlItem.key}"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
                         <div class="card-body">
                            <h4 class="card-title">
-                              <a href="#"><c:out value="${sqlData[keyName]['itemTitle']}" /></a>
+                              <a href="http://localhost:8080/Marketplace/buy.jsp?item_id=${sqlItem.key}"><c:out value="${sqlData[keyName]['itemTitle']}" /></a>
                            </h4>
                            <p class="card-text">
                               $<c:out value="${sqlData[keyName]['price']}" />
