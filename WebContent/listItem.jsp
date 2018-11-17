@@ -117,7 +117,7 @@
 	<!-- Navigation -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="userHome.jsp">Marketplace</a>
+			<a class="navbar-brand" href="index.html">Marketplace</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarResponsive" aria-controls="navbarResponsive"
 				aria-expanded="false" aria-label="Toggle navigation">
@@ -125,12 +125,7 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
-					<li class="nav-item"><a class="nav-link" href="userHome.jsp">Home</a>
-					</li>
-					<li class="nav-item"><a class="nav-link" href="#">About</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">Services</a>
-					</li>
-					<li class="nav-item"><a class="nav-link" href="#">Contact</a>
+					<li class="nav-item"><a class="nav-link" href="index.html">Home</a>
 					</li>
 					<li class="nav-item active">
 						<a id="loginNav" class="nav-link" href="login.jsp">Login<span class="sr-only">(current)</span></a>
@@ -237,7 +232,7 @@
 	<!-- Footer -->
 	<footer class="py-5 bg-dark">
 		<div class="container">
-			<p class="m-0 text-center text-white">Copyright &copy; Your Website 2017</p>
+			<p class="m-0 text-center text-white">Copyright &copy; Marketplace 2018</p>
 		</div>
 		<!-- /.container -->
 	</footer>

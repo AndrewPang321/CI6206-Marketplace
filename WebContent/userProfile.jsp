@@ -79,15 +79,6 @@
             <a class="nav-link" href="userHome.jsp">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Services</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Contact</a>
-          </li>
-          <li class="nav-item">
             <a id="loginNav" class="nav-link" href="login.jsp">Login</a>
             <button type="button" id="logoutNav" class="btn btn-dark" onclick="logout()">Logout</button>
           </li>
@@ -107,7 +98,7 @@
   <!-- Footer -->
   <footer class="footer py-5 bg-dark">
     <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2017</p>
+      <p class="m-0 text-center text-white">Copyright &copy; Marketplace 2018</p>
     </div>
     <!-- /.container -->
   </footer>

@@ -59,7 +59,7 @@
                       // str += '<a id="itemTitle" data-toggle="modal" href="#itemModal">' + item.item_title + '</a>';
                       //str += '<a href="itemDetails.jsp"><div id="itemTitle" data-toggle="modal">' + item.item_title + '</div></a>';
                       str += '<a href="itemDetails.jsp?item_id=' + item.item_id + '"><div id="itemTitle" data-toggle="modal">' + item.item_title + '</div></a>';
-                      
+
                       //str += '<div id="itemId" style="display:none">' + item.item_id + '</div>';
                       str += '<div id="itemUserId" style="display:none">' + item.user_id + '</div>';
                       str += '</h4>';
@@ -109,15 +109,6 @@
               <a class="nav-link" href="index.html">Home
                 <span class="sr-only">(current)</span>
               </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Services</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
             </li>
             <li class="nav-item">
               <a id="loginNav" class="nav-link" href="login.jsp">Login</a>
@@ -182,7 +173,7 @@
     <!-- Footer -->
     <footer class="py-5 bg-dark">
       <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2017</p>
+        <p class="m-0 text-center text-white">Copyright &copy; Marketplace 2018</p>
       </div>
       <!-- /.container -->
     </footer>

@@ -64,12 +64,7 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
-					<li class="nav-item"><a class="nav-link" href="userHome.jsp">Home</a>
-					</li>
-					<li class="nav-item"><a class="nav-link" href="#">About</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">Services</a>
-					</li>
-					<li class="nav-item"><a class="nav-link" href="#">Contact</a>
+					<li class="nav-item"><a class="nav-link" href="index.html">Home</a>
 					</li>
 					<li class="nav-item active"><a class="nav-link"
 						href="login.jsp">Logout <span class="sr-only">(current)</span>
@@ -135,7 +130,7 @@
 	<!-- Footer -->
 	<footer class="py-5 bg-dark">
 		<div class="container">
-			<p class="m-0 text-center text-white">Copyright &copy; Your Website 2017</p>
+			<p class="m-0 text-center text-white">Copyright &copy; Marketplace 2018</p>
 		</div>
 		<!-- /.container -->
 	</footer>
