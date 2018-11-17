@@ -364,7 +364,26 @@ public class DBAO {
     
     public void acceptOffer(int item_id) throws SignUpException {
         try {
-            String sqlStatement = "UPDATE t_offer (offer_status) SET VALUES ('accept') WHERE t.item_id = ? " ;
+        	String sqlStatement = "UPDATE t_offer SET offer_status = 'accept' WHERE t.item_id = ? ";
+            getConnection();
+
+            PreparedStatement prepStmt = con.prepareStatement(sqlStatement);
+            prepStmt.setInt(1, item_id);
+            ResultSet rs = prepStmt.executeQuery();
+            if (rs.next()) {
+                prepStmt.executeUpdate();
+            }
+            prepStmt.close();
+        } catch (SQLException ex) {
+            releaseConnection();
+            throw new SignUpException(ex.getMessage());
+        }
+        releaseConnection();
+    }
+    
+    public void rejectOffer(int item_id) throws SignUpException {
+        try {
+            String sqlStatement = "UPDATE t_offer SET offer_status = 'reject' WHERE t.item_id = ? ";
             getConnection();
 
             PreparedStatement prepStmt = con.prepareStatement(sqlStatement);
