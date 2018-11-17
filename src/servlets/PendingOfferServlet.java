@@ -26,6 +26,7 @@ import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -58,23 +59,26 @@ public class PendingOfferServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
 
 		String str_item_id = request.getParameter("item_id");
-		System.out.println(str_item_id);
+		System.out.println("pending: " + str_item_id);
 		int item_id = Integer.parseInt(str_item_id);
 
         if (User.currentUser != null) {
             // int user_id = User.currentUser.getUserId();
-            Offer offer;
+//            Offer offer;
+            ArrayList<Offer> offerList = new ArrayList<>();
 
             try {
                 DBAO DB = new DBAO();
-                offer = DB.getPendingOffer(item_id);
-                
+//                offer = DB.getPendingOffer(item_id);
+                offerList.addAll(DB.getPendingOffer(item_id));
+
                 response.setStatus(200);
             } catch (Exception ex) {
                 response.setStatus(400);
                 throw new ServletException(ex);
             }
-            String offerInfoJson = new Gson().toJson(offer);
+//            String offerInfoJson = new Gson().toJson(offer);
+            String offerInfoJson = new Gson().toJson(offerList);
             response.setContentType("application/json");
             PrintWriter out = response.getWriter();
             out.print(offerInfoJson);

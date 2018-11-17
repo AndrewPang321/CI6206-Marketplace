@@ -125,7 +125,7 @@
       <div class="row">
 
         <div class="col-lg-3">
-          <h1 class="my-4">Shop Name</h1>
+          <h1 class="my-4">Marketplace</h1>
           <div class="list-group">
             <a href="userHome.jsp" class="list-group-item">User Home</a>
             <a href="listItem.jsp" class="list-group-item">List Item</a>

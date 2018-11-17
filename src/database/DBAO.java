@@ -327,9 +327,10 @@ public class DBAO {
         return item;
     }
     
-    public Offer getPendingOffer(int item_id) throws GeneralException {
+    public ArrayList<Offer> getPendingOffer(int item_id) throws GeneralException {
     	boolean acquireConnection = false;
-    	Offer offer = null;
+//    	Offer offer = null;
+        ArrayList<Offer> offers = new ArrayList<>();
 
         try {
             String sqlStatement = "SELECT buyer_id, item_id, item_title, offer_price, offer_status "
@@ -343,10 +344,14 @@ public class DBAO {
             prepStmt.setInt(1, item_id);
             ResultSet rs = prepStmt.executeQuery();
             
-            if (rs.next()) {
-            	offer = new Offer(rs.getInt("buyer_id"), rs.getInt("item_id"), rs.getString("item_title"), 
+            while (rs.next()) {
+//            	offer = new Offer(rs.getInt("buyer_id"), rs.getInt("item_id"), rs.getString("item_title"),
+//            			rs.getFloat("offer_price"), rs.getString("offer_status"));
+//            	offer.setItemId(item_id);
+                Offer offer = new Offer(rs.getInt("buyer_id"), rs.getInt("item_id"), rs.getString("item_title"),
             			rs.getFloat("offer_price"), rs.getString("offer_status"));
-            	offer.setItemId(item_id);
+                offer.setItemId(item_id);
+                offers.add(offer);
             }
             
             prepStmt.close();
@@ -359,7 +364,8 @@ public class DBAO {
         if (acquireConnection) {
             releaseConnection();
         }
-        return offer;
+//        return offer;
+        return offers;
     }
     
     public void acceptOffer(int item_id) throws SignUpException {
