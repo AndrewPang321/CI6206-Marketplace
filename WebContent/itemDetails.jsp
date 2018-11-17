@@ -40,9 +40,9 @@
         url = url.split("=");
         var item_id = url[1];
         var itemInfo;
-        var itemLabel = ["item_id", "user_id", "item_title", "item_category", "item_description", "item_condition", 
-        	"item_location", "item_delivery_mode", "item_like_count", "item_status", "selling_price", "shipping_fee",
-        	"active", "remarks"];
+        var itemLabel = ["Item Id", "User Id", "Item Title", "Item Category", "Item Description", "Item Condition",
+        	"Item Location", "Item Delivery Mode", "Item Like Count", "Item Status", "Selling Price", "Shipping Fee",
+        	"Active", "Remarks"];
         var str = "";
 
         $.get("itemdetails", { item_id: item_id }, function(output) {
@@ -85,7 +85,7 @@
 <!-- Navigation -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="userHome.jsp">Marketplace</a>
+			<a class="navbar-brand" href="index.html">Marketplace</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarResponsive" aria-controls="navbarResponsive"
 				aria-expanded="false" aria-label="Toggle navigation">
