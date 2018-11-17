@@ -89,9 +89,7 @@ public class ItemDetailsServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession httpSession = request.getSession(true);
-		
-		
+		/*HttpSession httpSession = request.getSession(true);	
         
 		if (User.currentUser != null) {
             int user_id = User.currentUser.getUserId();
@@ -117,7 +115,7 @@ public class ItemDetailsServlet extends HttpServlet {
             out.close();
         }
         
-        return;
+        return;*/
     }
 
 }
